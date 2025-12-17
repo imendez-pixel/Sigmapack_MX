@@ -1,0 +1,16 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Odoo specific files
+*.log
+*.tmp
+*.swp
+*.pyc
+*.pyo
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+.env
