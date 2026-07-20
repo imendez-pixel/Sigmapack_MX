@@ -1,0 +1,9208 @@
+/*
+ * Author       : imendez_sigmapack
+ * Generated on : 20-Jul-2026 15:56:54
+ * Version      : 1.0
+ */
+ application "Sigmapack Opportunities Hub 2"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "America/Bahia_Banderas"
+ 	time format = "24-hr"
+
+ 	forms
+	{
+		form Lead_Company
+		{
+			displayname = "Add Client Company"
+			success message = "New Lead Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Client_ID
+			(
+    			type = autonumber
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Company_name
+			(
+    			type = text
+				displayname = "Company name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Industry
+			(
+				type = picklist
+				maxchar = 100
+				values = {"Pharma & Nutraceuticals","Cosmetics & Personal Care","Chemicals & Household","Food & Beverages"}
+				sortorder = ascending
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Website
+			(
+    			type = url
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Employee_Count
+			(
+				type = picklist
+				displayname = "Employee Count"
+				values = {"< 100","100 - 500","500 - 1000","1000 - 10000","> 10000"}
+	 			row = 1
+	 			column = 3   
+				width = medium
+			)
+			Contacts
+			(
+				type = section
+				visibility = true
+	 			row = 2
+	 			column = 0   
+				width = medium
+			)
+			must have Name
+			(
+    			type = name
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Job_Title
+			(
+    			type = text
+				displayname = "Job Title"
+	 			row = 2
+	 			column = 2   
+				width = medium
+			)
+			Opportunity_Role
+			(
+				type = picklist
+				displayname = "Opportunity Role"
+				maxchar = 100
+				values = {"Technical Influencer","Leading Actor","Ownership"}
+				sortorder = ascending
+	 			row = 2
+	 			column = 2   
+				width = medium
+			)
+			Mobile_Number
+			(
+    			type = phonenumber
+				displayname = "Mobile Number"
+	 			row = 2
+	 			column = 3   
+				width = medium
+			)
+			must have Email_Id
+			(
+    			type = email
+				displayname = "Email Id"
+				maxchar = 253
+	 			row = 2
+	 			column = 3   
+				width = medium
+			)
+			Sitios
+			(
+				type = grid
+				displayname = "Sites"
+				values  = Client_Sites.ID
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					Save
+					(
+   						type = submit
+   						displayname = "Save"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Client_Sites
+		{
+			displayname = "Add Client Site"
+			success message = "Data Added Successfully!"
+			Contacts
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			plain1
+			(
+    			type = plaintext
+				value = "<div><span class=\"size\" style=\"font-size: 16px\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><b>Company Site Information</b></span></span><br /></div>"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			New_Site
+			(
+				type = section
+				displayname = "New Site"
+	 			row = 2
+	 			column = 0   
+				width = medium
+			)
+			Site_ID
+			(
+    			type = autonumber
+				start index = 1
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Lookup_Client_Company
+			(
+				type = picklist	
+				displayname = "Lookup Client Company"
+				values  = Lead_Company.ID
+    			displayformat = [Client_ID + " - " + Company_name + " - " + Name.first_name + " - " + Name.last_name]
+				sortorder = ascending
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			site_name
+			(
+    			type = text
+				displayname = "Site Name"
+				initial value = "Main Site"
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Contact
+			(
+				type = picklist	
+				values  = Lead_Company.ID
+    			displayformat = [" " + Name.first_name + " " + Name.last_name + " " + Email_Id]
+				allow new entries
+				[
+					displayname = "Agregar nuevo"
+				]
+				sortorder = ascending
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			address
+			(
+    			type = address
+				displayname = "Address"
+     			capture_coordinates = true
+     			adjust_using_map = true
+     			address_line_1
+     			(
+	     			  type = address_line_1
+	     			  displayname = "Address Line 1"
+     			) 
+     			address_line_2
+     			(
+	     			  type = address_line_2
+	     			  displayname = "Address Line 2"
+     			) 
+     			district_city
+     			(
+	     			  type = district_city
+	     			  displayname = "City / District"
+     			) 
+     			state_province
+     			(
+	     			  type = state_province
+	     			  displayname = "State / Province"
+     			) 
+     			postal_Code
+     			(
+	     			  type = postal_Code
+	     			  displayname = "Postal Code"
+     			) 
+     			country
+     			(
+	     			  type = country
+	     			  displayname = "Country"
+     			) 
+     			latitude
+     			(
+	     			  type = latitude
+	     			  displayname = "latitude"
+	     			 visibility = false
+     			) 
+     			longitude
+     			(
+	     			  type = longitude
+	     			  displayname = "longitude"
+	     			 visibility = false
+     			) 
+	 			row = 2
+	 			column = 2   
+				width = medium
+				personal data = true
+			)
+			Section
+			(
+				type = section
+	 			row = 3
+	 			column = 0   
+				width = medium
+			)
+			plain
+			(
+    			type = plaintext
+				value = "<div><span class=\"size\" style=\"font-size: 16px\"><b><span class=\"font\" style=\"font-family: Arimo, sans-serif\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\">CAD Equipment &amp; Areas layouts</span></span></b></span><br /></div>"
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			Section1
+			(
+				type = section
+				displayname = "Section"
+	 			row = 4
+	 			column = 0   
+				width = medium
+			)
+			File_upload
+			(
+    			type = upload file
+				displayname = "File upload"
+    			file count = 10
+				browse = local_drive, zoho_docs
+	 			row = 4
+	 			column = 1
+				width = medium
+			)
+			Section2
+			(
+				type = section
+				displayname = "Section"
+	 			row = 5
+	 			column = 0   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					Save
+					(
+   						type = submit
+   						displayname = "Save"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Add_Partner_companies
+		{
+			displayname = "Add Partner Company"
+			success message = "Data Added Successfully!"
+			Section1
+			(
+				type = section
+				displayname = "Section"
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			PartnerCo_ID
+			(
+    			type = autonumber
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have unique Partner_Company_name
+			(
+    			type = text
+				displayname = "Partner Company name"
+				initial value = "CMI"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Address
+			(
+    			type = address
+     			capture_coordinates = true
+     			adjust_using_map = false
+     			address_line_1
+     			(
+	     			  type = address_line_1
+	     			  displayname = "Address Line 1"
+     			) 
+     			address_line_2
+     			(
+	     			  type = address_line_2
+	     			  displayname = "Address Line 2"
+	     			 visibility = false
+     			) 
+     			district_city
+     			(
+	     			  type = district_city
+	     			  displayname = "City / District"
+	     			 visibility = false
+     			) 
+     			state_province
+     			(
+	     			  type = state_province
+	     			  displayname = "State / Province"
+	     			 visibility = false
+     			) 
+     			postal_Code
+     			(
+	     			  type = postal_Code
+	     			  displayname = "Postal Code"
+	     			 visibility = false
+     			) 
+     			country
+     			(
+	     			  type = country
+	     			  displayname = "Country"
+	     			 visibility = false
+     			) 
+     			latitude
+     			(
+	     			  type = latitude
+	     			  displayname = "Latitude"
+	     			 visibility = false
+     			) 
+     			longitude
+     			(
+	     			  type = longitude
+	     			  displayname = "Longitude"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Machinery_range
+			(
+				type = list	
+				displayname = "Machinery range"
+				values = {"Depaletizing","Unscrambler","Feeding table","Cleaning","Air Driyinng","Dosing / Filling","Tabletting","Counting","Capsule filling","Dosing /Filling /Capping","Cleaning/Filling/Capping","Closing/Capping/Torquing","Plugging/ Inserting","Labelling","Grouping","Cartoning","Tray forming","Blistering","Bundling/ banding","Overwrapping","Case forming","Casepacking","Palletizing","Mixing","Cooking","Drying","Freezedrying","Autoclave","Pasteurizing","Carbonator","Emulsifying"}
+				height = 13px
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Phone
+			(
+    			type = text
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Partner_Website
+			(
+    			type = url
+				displayname = "Website"
+				enable  linkname
+	 			row = 1
+	 			column = 3   
+				width = medium
+			)
+			Partner_contacts
+			(
+				type = section
+				displayname = "Partner contacts"
+				visibility = true
+	 			row = 2
+	 			column = 0   
+				width = medium
+			)
+			must have Sales_Contact
+			(
+    			type = name
+				displayname = "Sales Contact"
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 2
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			must have Email
+			(
+    			type = email
+	 			row = 2
+	 			column = 2   
+				width = medium
+			)
+			Phone_Number
+			(
+    			type = phonenumber
+				displayname = "Phone"
+	 			row = 2
+	 			column = 3   
+				width = medium
+				personal data = true
+			)
+	
+			actions
+			{
+				on add
+				{
+					Save1
+					(
+   						type = submit
+   						displayname = "Save"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					Save
+					(
+   						type = submit
+   						displayname = "Save"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form New_Project_Form
+		{
+			displayname = "New Project Form"
+			success message = "Data Added Successfully!"
+			Section2
+			(
+				type = section
+				displayname = "Section"
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			plain2
+			(
+    			type = plaintext
+				value = "<div><span class=\"size\" style=\"font-size: 16px\"><span class=\"font\" style=\"font-family: Arimo, sans-serif\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><b>Project Details</b></span></span></span><br /></div>"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			New_Project
+			(
+				type = section
+				displayname = "New Project"
+	 			row = 2
+	 			column = 0   
+				width = medium
+			)
+			Project_ID1
+			(
+    			type = autonumber
+				displayname = "Project_ID"
+				start index = 1
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Reference_Description
+			(
+    			type = text
+				displayname = "Reference/Description"
+	 			row = 2
+	 			column = 2   
+				width = medium
+			)
+			Lead_Company
+			(
+				type = list	
+				displayname = "Add Client Company"
+				values  = Lead_Company.ID
+    			displayformat = [" " + Name.first_name + " " + Name.last_name]
+				sortorder = ascending
+				height = 60px
+	 			row = 2
+	 			column = 3   
+				width = medium
+			)
+			Client_Site
+			(
+				type = picklist	
+				displayname = "Client Site"
+				values  = Client_Sites.ID
+    			displayformat = [Site_ID + " - " + site_name + " - " + address.state_province + " - " + address.country]
+				sortorder = ascending
+	 			row = 2
+	 			column = 3   
+				width = medium
+			)
+			Section1
+			(
+				type = section
+				displayname = "Section"
+	 			row = 3
+	 			column = 0   
+				width = medium
+			)
+			unique Project_ID
+			(
+    			type = text
+				displayname = "Project_reference"
+				initial value = "PRJ-2026-001"
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			plain1
+			(
+    			type = plaintext
+				value = "<div> <span class=\"font\" style=\"font-family: Arimo, sans-serif\"><span class=\"size\" style=\"font-size: 16px\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><b>Project descriiption</b></span></span></span></div>"
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			Description
+			(
+				type = section
+	 			row = 4
+	 			column = 0   
+				width = medium
+			)
+			Project_Description
+			(
+    			type = richtext
+				displayname = "Project Description"
+				height = 250px
+				toolbar = enable
+				[
+					style, font-color, background-color, remove-formatting, alignment, link, table, bullets-and-numbering, 
+					font-size : {1, 2, 3, 4, 5, 6, 7}
+				]
+	 			row = 4
+	 			column = 1   
+				width = large
+			)
+			Section
+			(
+				type = section
+	 			row = 5
+	 			column = 0   
+				width = medium
+			)
+			plain
+			(
+    			type = plaintext
+				value = "<div> <span class=\"size\" style=\"font-size: 16px\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><b>Project Files</b></span></span></div>"
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+			File_upload
+			(
+    			type = upload file
+				displayname = "File upload"
+    			file count = 10
+				browse = local_drive
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					Save
+					(
+   						type = submit
+   						displayname = "Save"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form New_Opportunity
+		{
+			title
+    		{
+    			displayname = "Nueva Oportunidad"
+    			on add = "New Opportunity"
+   	 			on edit = "Edit Opportunity"
+			}
+			success message = "Data Added Successfully!"
+			feature property = 576
+			Section4
+			(
+				type = section
+				displayname = "Section"
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			plain
+			(
+    			type = plaintext
+				value = "<div><span class=\"font\" style=\"font-family: Arimo, sans-serif\"><b><span class=\"size\" style=\"font-size: 18.6667px\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\">Opportunity Information</span></span></b></span><br /></div>"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Section3
+			(
+				type = section
+				displayname = "Section"
+	 			row = 2
+	 			column = 0   
+				width = medium
+			)
+			unique Opportunity_ID2
+			(
+    			type = text
+				displayname = "Opportunity_ID"
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Opportunity_reference
+			(
+    			type = text
+				displayname = "Opportunity Reference"
+	 			row = 2
+	 			column = 2   
+				width = large
+			)
+			Opportunity_ID_Text
+			(
+    			type = richtext
+				height = 35px
+				toolbar = disable
+	 			row = 2
+	 			column = 3   
+				width = small
+			)
+			Opportunity_ID
+			(
+				type = section
+				displayname = "Opportunity-ID"
+	 			row = 3
+	 			column = 0   
+				width = medium
+			)
+			Lead_Company
+			(
+				type = picklist	
+				displayname = "Add Client Company"
+				values  = Lead_Company.ID
+    			displayformat = [Client_ID + " - " + Company_name + " - " + Name.first_name + " - " + Name.last_name]
+				allow new entries
+				[
+					displayname = "Agregar nuevo"
+				]
+				sortorder = ascending
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			Industry
+			(
+				type = picklist
+				maxchar = 100
+				values = {"Choice 1","Choice 2","Choice 3"}
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			opportunity_owner
+			(
+    			type = picklist
+				displayname = "Opportunity Owner"
+				module = users
+				displayformat = [username]
+	 			row = 3
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			must have Partner_companies
+			(
+				type = list	
+				displayname = "Partner companies"
+				values  = Add_Partner_companies.ID
+    			displayformat = [Partner_Company_name + " - " + Sales_Contact.first_name + " - " + Sales_Contact.last_name + " - " + Email]
+				allow new entries
+				[
+					displayname = "Add new"
+				]
+				sortorder = ascending
+				height = 60px
+	 			row = 3
+	 			column = 1   
+				width = large
+			)
+			Client_Site
+			(
+				type = picklist	
+				displayname = "Client Site:"
+				values  = Client_Sites.ID
+    			displayformat = [site_name + " - " + address.state_province]
+				allow new entries
+				[
+					displayname = "Agregar nuevo"
+				]
+				sortorder = ascending
+	 			row = 3
+	 			column = 2   
+				width = medium
+			)
+			Probability_of_getting_the_Order
+			(
+				type = picklist
+				displayname = "Probability of getting the Order"
+				maxchar = 100
+				values = {"⏩Seems very good","▶️ Seems Good","⏯️ Seems Fair","◀️ Seems Bad"}
+	 			row = 3
+	 			column = 3   
+				width = medium
+			)
+			Contact_Engagement
+			(
+				type = picklist
+				displayname = "Contact Engagement"
+				maxchar = 100
+				values = {"⭐⭐⭐⭐⭐ (5) Confirmed budget and choice","⭐⭐⭐⭐ (4)  Internal Advocate","⭐⭐⭐ (3) Engaged: Replies on time / Asks questions","⭐⭐ (2) Lukewarm: No urgency .Grey area","⭐ (1) Ghosting: Stopped replying","❌(0) New contact/ Inactivity limit reached"}
+	 			row = 3
+	 			column = 3   
+				width = medium
+			)
+			Deal_Stage
+			(
+				type = picklist
+				displayname = "Deal Stage"
+				maxchar = 100
+				values = {"⬜⬜⬜⬜☑️B.A.N.T Analysis |Technical specs","⬜⬜⬜☑️☑️Solutⁿ design | Budget quotⁿ Drafting","⬜⬜☑️☑️☑️Evaluatⁿ | OEE-ROI Evidencing | Requoting","⬜☑️☑️☑️☑️Final quote confirmed receipt | chasing feedback","☑️☑️☑️☑️☑️Negotⁿ and Decision stage."}
+	 			row = 3
+	 			column = 3   
+				width = medium
+			)
+			Status
+			(
+				type = picklist
+				displayname = "Status | Priority"
+				maxchar = 100
+				values = {"Pressing (Hard Deadline)","Priority (Active Interest))","Standard (Routine Opportunity)","Low Priority (Long-Term / Explorory)"}
+	 			row = 3
+	 			column = 3   
+				width = medium
+			)
+			Section
+			(
+				type = section
+	 			row = 4
+	 			column = 0   
+				width = medium
+			)
+			plain1
+			(
+    			type = plaintext
+				value = "<div><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><span class=\"size\" style=\"font-size: 16px\">​</span></span><span class=\"font\" style=\"font-family: Arimo, sans-serif\"><span class=\"size\" style=\"font-size: 16px\"><b><span class=\"colour\" style=\"color: rgb(255, 51, 51)\">Qualification</span></b></span></span><br /></div>"
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			Qualification
+			(
+				type = section
+	 			row = 5
+	 			column = 0   
+				width = medium
+			)
+			How_is_it_done_now
+			(
+    			type = textarea
+				displayname = "How is it done now?"
+				height = 100px
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+			Last_OEE
+			(
+    			type = textarea
+				displayname = "Current OEE"
+				height = 100px
+	 			row = 5
+	 			column = 2   
+				width = medium
+			)
+			Pains_Now_Desired_Goal
+			(
+    			type = textarea
+				displayname = "Pains Now/ Desired Goal"
+				height = 100px
+	 			row = 5
+	 			column = 3   
+				width = medium
+			)
+			Section2
+			(
+				type = section
+				displayname = "Section"
+	 			row = 6
+	 			column = 0   
+				width = medium
+			)
+			plain2
+			(
+    			type = plaintext
+				value = "<div><span class=\"font\" style=\"font-family: Arimo, sans-serif\"><span class=\"size\" style=\"font-size: 16px\"><b><span class=\"colour\" style=\"color: rgb(255, 51, 51)\">Quotation submission and followup</span></b></span></span> <br /></div>"
+	 			row = 6
+	 			column = 1   
+				width = medium
+			)
+			Section5
+			(
+				type = section
+				displayname = "Section"
+	 			row = 7
+	 			column = 0   
+				width = medium
+			)
+			Section1
+			(
+				type = section
+				displayname = "Section"
+	 			row = 8
+	 			column = 0   
+				width = medium
+			)
+			Is_there_Budget_Available
+			(
+				type = radiobuttons
+				displayname = "Budget Availibility"
+				maxchar = 100
+				values = {"No, budget purposes | Future","In process of approva | Presently","Yes, but amount unknown","Yes, amounts validated"}
+	 			row = 8
+	 			column = 1   
+				width = medium
+			)
+			Estimated
+			(
+    			type = date
+				displayname = "Desired startup date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 8
+	 			column = 2   
+				width = medium
+			)
+			Online_Bidding
+			(
+				type = section
+				displayname = "Quotation submission and followup"
+	 			row = 9
+	 			column = 0   
+				width = medium
+			)
+			Online_Bidding_through_customer_portal
+			(
+				type = radiobuttons
+				displayname = "Submission mode"
+				maxchar = 100
+				values = {"Locally -Through Sigmapack","Online Bidding through customer portal","Foreign-Through Manufacturer"}
+				initial value = "Online Bidding through customer portal"
+				layout = 2
+	 			row = 9
+	 			column = 1   
+				width = medium
+			)
+			Link_to_website_to_upload_quotation
+			(
+    			type = url
+				displayname = "Link to website to upload quotation"
+				enable  linkname
+	 			row = 9
+	 			column = 2   
+				width = medium
+			)
+			tender_submission_deadline
+			(
+    			type = datetime
+				displayname = "Tender Submission Deadline"
+				timedisplayoptions = "hh:mm:ss"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 9
+	 			column = 2   
+				width = medium
+			)
+			Username
+			(
+    			type = text
+				displayname = "Username:"
+	 			row = 9
+	 			column = 2   
+				width = medium
+			)
+			Password
+			(
+    			type = text
+				displayname = "Password:"
+	 			row = 9
+	 			column = 2   
+				width = medium
+			)
+			Section6
+			(
+				type = section
+				displayname = "Section"
+	 			row = 10
+	 			column = 0   
+				width = medium
+			)
+			plain3
+			(
+    			type = plaintext
+				value = "<div><span class=\"font\" style=\"font-family: Arimo, sans-serif\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><span class=\"size\" style=\"font-size: 16px\"><b>Commercial Files</b></span></span></span><br /></div>"
+	 			row = 10
+	 			column = 1   
+				width = medium
+			)
+			File_upload
+			(
+    			type = upload file
+				displayname = "File upload"
+    			file count = 10
+				browse = local_drive, zoho_docs
+	 			row = 10
+	 			column = 1
+				width = medium
+			)
+			Section7
+			(
+				type = section
+				displayname = "Section"
+	 			row = 11
+	 			column = 0
+				width = medium
+			)
+			plain6
+			(
+    			type = plaintext
+				value = "<div><span class=\"font\" style=\"font-family: Arimo, sans-serif\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><span class=\"size\" style=\"font-size: 16px\"><b>Almacenamiento en Zoho WorkDrive</b></span></span></span><br /></div>"
+	 			row = 11
+	 			column = 1
+				width = medium
+			)
+			must have WorkDrive_Folder_Name
+			(
+    			type = text
+				displayname = "Carpeta de almacenamiento (Zoho WorkDrive)"
+	 			row = 11
+	 			column = 1
+				width = medium
+			)
+			WorkDrive_Folder_Link
+			(
+    			type = url
+				displayname = "Enlace a la carpeta de WorkDrive"
+				enable  linkname
+	 			row = 11
+	 			column = 2
+				width = medium
+			)
+			WorkDrive_Files
+			(
+    			type = upload file
+				displayname = "Explorar / adjuntar desde WorkDrive"
+    			file count = 10
+				browse = zoho_docs
+	 			row = 11
+	 			column = 3
+				width = medium
+			)
+
+			actions
+			{
+				on add
+				{
+					Next
+					(
+   						type = submit
+   						displayname = "Next"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+			blueprint components
+			{
+				stages = {"Main","New Client","New Company Site","New Partner","New Project","New Opportunity","New Opportunity requirements","New Opportunity Products","New Opportunity Formats"}
+			}
+		}
+		form Opportunity_Comments
+		{
+			displayname = "Comentarios"
+			success message = "Comentario agregado correctamente!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0
+				width = medium
+			)
+			Comment_ID
+			(
+    			type = autonumber
+				start index = 1
+	 			row = 1
+	 			column = 1
+				width = medium
+			)
+			must have Opportunity
+			(
+				type = picklist
+				displayname = "Oportunidad"
+				values  = New_Opportunity.ID
+    			displayformat = [Opportunity_ID2 + " - " + Opportunity_reference]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1
+				width = medium
+			)
+			Commented_By
+			(
+    			type = picklist
+				displayname = "Autor"
+				module = users
+				displayformat = [username]
+	 			row = 1
+	 			column = 2
+				width = medium
+				personal data = true
+			)
+			must have Comment
+			(
+    			type = textarea
+				displayname = "Comentario"
+				height = 100px
+	 			row = 2
+	 			column = 1
+				width = large
+			)
+
+			actions
+			{
+				on add
+				{
+					Save
+					(
+   						type = submit
+   						displayname = "Guardar"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Opportunity_Formats_Sizes
+		{
+			displayname = "Opportunity Formats & Sizes"
+			success message = "Data Added Successfully!"
+			feature property = 256
+			Section1
+			(
+				type = section
+				displayname = "Section"
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			New_Opportunity
+			(
+				type = picklist	
+				values  = New_Opportunity.ID
+    			displayformat = [Opportunity_ID2]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Section2
+			(
+				type = section
+				displayname = "Section"
+	 			row = 2
+	 			column = 0   
+				width = medium
+			)
+			plain
+			(
+    			type = plaintext
+				value = "<div><span class=\"size\" style=\"font-size: 16px\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\">Add format information</span></span><br /></div>"
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Section
+			(
+				type = section
+	 			row = 3
+	 			column = 0   
+				width = medium
+			)
+			Packaging_tier
+			(
+				type = picklist
+				displayname = "Packaging Family"
+				maxchar = 100
+				values = {"Unitary Pakaging","Secondary Packaging","Tertiary Pakaging","Pallet-Shipping","Label Formats","Closure-Caps Formats","Blister Packaging"}
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			Section3
+			(
+				type = section
+				displayname = "Section"
+	 			row = 4
+	 			column = 0   
+				width = medium
+			)
+			plain1
+			(
+    			type = plaintext
+				value = "<div><span class=\"font\" style=\"font-family: Arimo, sans-serif\"><span class=\"size\" style=\"font-size: 16px\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><b>Formats Details</b></span></span></span><br /></div>"
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			Unitary_Packaging
+			(
+				type = grid
+				displayname = "Unitary Packaging"
+				values  = TPL_Empaque_Unitario.ID
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+			TPL_Secondary_packaging
+			(
+				type = grid
+				displayname = "Secondary packaging"
+				values  = TPL_Secondary_packaging.ID
+	 			row = 6
+	 			column = 1   
+				width = medium
+			)
+			TPL_Empaque_terciario
+			(
+				type = grid
+				displayname = "Tertiary packaging"
+				values  = TPL_Empaque_terciario.ID
+	 			row = 7
+	 			column = 1   
+				width = medium
+			)
+			TPL_Pallet_Specs
+			(
+				type = grid
+				displayname = "Pallet_Specs"
+				values  = Pallet_Logistics_import.ID
+	 			row = 8
+	 			column = 1   
+				width = medium
+			)
+			Pallet_Specifications
+			(
+				type = grid
+				displayname = "Pallet Specifications"
+				values  = Pallet_Logistics_import.ID
+	 			row = 9
+	 			column = 1   
+				width = medium
+			)
+			Labelling_Formats
+			(
+				type = grid
+				displayname = "Labelling Formats"
+				values  = Labelling_formats.ID
+	 			row = 10
+	 			column = 1   
+				width = medium
+			)
+			SubForm
+			(
+				type = grid
+				values  = TPL_Closure_Caps.ID
+	 			row = 11
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					Save_Opportunity
+					(
+   						type = submit
+   						displayname = "Save Opportunity"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Opportunity_Products
+		{
+			title 
+    		{
+				displayname = "Opportunity Products"
+    			on add = "New Product details"
+   	 			on edit = "Edit Product Details"
+			}
+			success message = "Data Added Successfully!"
+			Section3
+			(
+				type = section
+				displayname = "Section"
+				visibility = true
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			New_Opportunity
+			(
+				type = picklist	
+				values  = New_Opportunity.ID
+    			displayformat = [Opportunity_ID2]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Section
+			(
+				type = section
+	 			row = 2
+	 			column = 0   
+				width = medium
+			)
+			plain
+			(
+    			type = plaintext
+				value = "<div><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><b>Opportunity Product type</b></span><span class=\"size\" style=\"font-size: 16px\"><span class=\"font\" style=\"font-family: Arimo, sans-serif\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\">​</span></span></span> <br /></div>"
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Oportunidad_Productos
+			(
+				type = section
+	 			row = 3
+	 			column = 0   
+				width = medium
+			)
+			Product_Number
+			(
+    			type = autonumber
+				displayname = "Product Number"
+				start index = 1
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			Product_Type
+			(
+				type = picklist
+				displayname = "Product Type"
+				maxchar = 100
+				values = {"Semiliquids | Non food","Flat beverages","Carbonated Beverages","Solids | Pharma","Powders and granulates","Hydroalcoholic Products","Solids | Food","Semiliquids | Food"}
+				initial value = "Semiliquids | Non food"
+				sortorder = ascending
+				others option = true
+	 			row = 3
+	 			column = 2   
+				width = medium
+			)
+			Product_acidity
+			(
+				type = radiobuttons
+				displayname = "Product acidity"
+				maxchar = 100
+				values = {"Alkaline (high pH)","Neutral (water like)","Acid range (low pH)"}
+				initial value = "Neutral (water like)"
+				layout = 3
+	 			row = 3
+	 			column = 3   
+				width = medium
+			)
+			Section1
+			(
+				type = section
+				displayname = "Section"
+	 			row = 4
+	 			column = 0   
+				width = medium
+			)
+			plain1
+			(
+    			type = plaintext
+				value = "<div><span class=\"size\" style=\"font-size: 16px\"><span class=\"font\" style=\"font-family: Arimo, sans-serif\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><b>Product specifications</b></span></span></span><br /></div>"
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			TPL_Liquors_Products
+			(
+				type = grid
+				displayname = "Liquors and spirits"
+				values  = TPL_Spirits_Liquors.ID
+				viewtype = list
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+			TPL_Carbonatadas
+			(
+				type = grid
+				displayname = "Carbonated beverages "
+				values  = TPL_Carbonatadas.ID
+				viewtype = list
+	 			row = 6
+	 			column = 1   
+				width = medium
+			)
+			TPL_Pharma_Liquids
+			(
+				type = grid
+				displayname = "Liquids -Pharma"
+				values  = TPL_Liquidos_Farma_import.ID
+				viewtype = list
+	 			row = 7
+	 			column = 1   
+				width = medium
+			)
+			TPL_Non_Beverage_liquids
+			(
+				type = grid
+				displayname = "Liquids - Non beverage"
+				values  = TPL_Non_Beverage_liquids.ID
+				viewtype = list
+	 			row = 8
+	 			column = 1   
+				width = medium
+			)
+			TPL_Pallet_Specs
+			(
+				type = grid
+				displayname = "Pallet_Specs"
+				values  = Pallet_Logistics_import.ID
+				viewtype = list
+	 			row = 9
+	 			column = 1   
+				width = medium
+			)
+			TPL_Semiliq_NoAlim
+			(
+				type = grid
+				displayname = "Semiliquids_Non Food"
+				values  = TPL_Semiliq_NoAlim.ID
+				viewtype = list
+	 			row = 10
+	 			column = 1   
+				width = medium
+			)
+			TPL_Semiliquids_Food
+			(
+				type = grid
+				displayname = "Semiliquids-Food"
+				values  = TPL_Semiliquids_Food.ID
+				viewtype = list
+	 			row = 11
+	 			column = 1   
+				width = medium
+			)
+			TPL_Solidos_Farma
+			(
+				type = grid
+				displayname = "Solids & powders - Pharma"
+				values  = TPL_Solidos_Farma.ID
+				viewtype = list
+	 			row = 12
+	 			column = 1   
+				width = medium
+			)
+			Section2
+			(
+				type = section
+				displayname = "Section"
+				visibility = true
+	 			row = 13
+	 			column = 0   
+				width = medium
+			)
+			Material_safety_data_sheet
+			(
+    			type = upload file
+				displayname = "Material safety data sheet"
+				browse = local_drive
+	 			row = 13
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					Next
+					(
+   						type = submit
+   						displayname = "Next"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Opportunity_Requirements
+		{
+			displayname = "Opportunity Requirements"
+			success message = "Data Added Successfully!"
+			Requirements_and_specificacions
+			(
+				type = section
+				displayname = "Requirements and specificacions"
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			New_Opportunity
+			(
+				type = picklist	
+				values  = New_Opportunity.ID
+    			displayformat = [Opportunity_ID2]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Section
+			(
+				type = section
+	 			row = 2
+	 			column = 0   
+				width = medium
+			)
+			plain
+			(
+    			type = plaintext
+				value = "<div><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><span class=\"size\" style=\"font-size: 16px\">Scope of Supply</span></span><br /></div><hr/><div><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><span class=\"size\" style=\"font-size: 16px\">​</span></span><br /></div>"
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Optionals
+			(
+				type = section
+				displayname = "Scope of Supply"
+	 			row = 3
+	 			column = 0   
+				width = medium
+			)
+			Required_solutions
+			(
+				type = checkboxes	
+				displayname = "Required solutions packaging"
+				values = {"Depaletizing","Feeding Table","Unscrambler","Depalletizing","Unscrambler-Pucks","Sorter","Unscrambler+Air blowing","Orienting","Blowing-Cleaning-ionizer","Rinsing","Filling","Dosing-sealing","Filling-Closing","Rinsing-Filling-Closing","Labelling","Cartoning","Bundling/ Grouping","Overwrapping","Forming-Dosing","Forming-Dosing-Sealing","Case erector","Case packing","Case sealing","Separator Inserter","Palletizing","Pallet Wrapper","Aerosol machines","Wet wipe machines"}
+				layout = 2
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			Optionals_and_Accessories
+			(
+    			type = richtext
+				displayname = "Optionals and Accessories"
+				height = 250px
+				toolbar = enable
+				[
+					style, indent, font-color, background-color, remove-formatting, alignment, link, table, bullets-and-numbering, 
+					font-size : {1, 2, 3, 4, 5, 6, 7}
+				]
+	 			row = 3
+	 			column = 2   
+				width = large
+			)
+			Section1
+			(
+				type = section
+				displayname = "Section"
+	 			row = 4
+	 			column = 0   
+				width = medium
+			)
+			plain1
+			(
+    			type = plaintext
+				value = "<div><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><span class=\"size\" style=\"font-size: 16px\">Production Capacity</span></span><br /></div>"
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			Operation_Rate
+			(
+				type = section
+				displayname = "Operation Rate"
+	 			row = 5
+	 			column = 0   
+				width = medium
+			)
+			Products_month
+			(
+				type = number
+				displayname = "Products/month"
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+			Days_per_Month
+			(
+				type = number
+				displayname = "Days per Month"
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+			Shifts_day
+			(
+				type = number
+				displayname = "Shifts/day"
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+			Hours_per_shift
+			(
+				type = number
+				displayname = "Hours per shift"
+	 			row = 5
+	 			column = 2   
+				width = medium
+			)
+			Products_hour
+			(
+				type = decimal
+				displayname = "Products/hour"
+				decimalplace = 0
+	 			row = 5
+	 			column = 2   
+				width = medium
+    			Formula_Properties
+    			(
+    						value =  ((input.Products_month / input.Days_per_Month) / input.Shifts_day) / input.Hours_per_shift
+    						visibility = true
+    			)
+			)
+			Products_minute
+			(
+				type = decimal
+				displayname = "Products/ minute"
+	 			row = 5
+	 			column = 2   
+				width = medium
+    			Formula_Properties
+    			(
+    						value =  (((input.Products_month / input.Days_per_Month) / input.Shifts_day) / input.Hours_per_shift) / 60
+    						visibility = true
+    			)
+			)
+			Section2
+			(
+				type = section
+				displayname = "Section"
+				visibility = true
+	 			row = 6
+	 			column = 0   
+				width = medium
+			)
+			plain2
+			(
+    			type = plaintext
+				value = "<div><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><span class=\"size\" style=\"font-size: 16px\">Utilities &amp; Norms</span></span><br /></div>"
+	 			row = 6
+	 			column = 1   
+				width = medium
+			)
+			Utilities
+			(
+				type = section
+				displayname = "Utilities & Norms"
+	 			row = 7
+	 			column = 0   
+				width = medium
+			)
+			compliance_Standards
+			(
+				type = list	
+				displayname = "Compliance Standards"
+				values = {"CE","ISO 13485","UL","EUDRALEX/NOM 59"}
+				height = 60px
+	 			row = 7
+	 			column = 1   
+				width = medium
+			)
+			Conductors_Configuration
+			(
+				type = picklist
+				displayname = "Conductors Configuration"
+				maxchar = 100
+				values = {"Not defined / To be confirmed","3PH + PE","3PH + N + PE","3PH only","Other / please specify"}
+				initial value = "3PH + PE"
+	 			row = 7
+	 			column = 1   
+				width = medium
+			)
+			Electrical_Supply
+			(
+				type = picklist
+				displayname = "Electrical Supply"
+				maxchar = 100
+				values = {"2PH-220Y/127 V","3PH-440 V +PE","3PH-440Y/254 V","3PH-480 V+PE","Otro / especificar"}
+				initial value = "3PH-440 V +PE"
+	 			row = 7
+	 			column = 1   
+				width = medium
+			)
+			Neutral_Regime_Required
+			(
+				type = picklist
+				displayname = "Neutral Regime Required"
+				maxchar = 100
+				values = {"Undefined / To be confirmed","TN-S","TN-C","TN-C-S","TT","IT","No neutral available","Requires validation by electrical engineers","Other / please specify"}
+				initial value = "Undefined / To be confirmed"
+	 			row = 7
+	 			column = 1   
+				width = medium
+			)
+			Electrical_enclosure_IP_rating
+			(
+				type = picklist
+				displayname = "Electrical enclosure IP rating"
+				maxchar = 100
+				values = {"IP54 — General industrial use","IP55 — Damp / moderate washing","IP65 — Dust + water jets","IP66 — Frequent washing / outdoor use","IP69K — Intensive sanitary washing","NEMA / UL required","Other / specify"}
+				initial value = "IP54 — General industrial use"
+	 			row = 7
+	 			column = 2   
+				width = medium
+			)
+			ATEX_Required
+			(
+				type = picklist
+				displayname = "ATEX Required?"
+				maxchar = 100
+				values = {"Not Applicable/ Not Classified","ATEX por definir","Zona 2 / II 3G — Gas/Vapor/Niebla","Zona 1 / II 2G — Gas/Vapor/Niebla","Zona 0 / II 1G — Gas/Vapor/Niebla","Zona 22 / II 3D — Polvo combustible","Zona 21 / II 2D — Polvo combustible","Zona 20 / II 1D — Polvo combustible","Zona 2/22 / II 3G/3D — Gas + Polvo","Zona 1/21 / II 2G/2D — Gas + Polvo","Zona 0/20 / II 1G/1D — Gas + Polvo","ATEX Assesment required"}
+				initial value = "Not Applicable/ Not Classified"
+				others option = true
+	 			row = 7
+	 			column = 2   
+				width = medium
+			)
+			Section3
+			(
+				type = section
+				displayname = "Section"
+	 			row = 8
+	 			column = 0   
+				width = medium
+			)
+			plain3
+			(
+    			type = plaintext
+				value = "<div><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><span class=\"size\" style=\"font-size: 16px\">Cleaning Requirements</span></span><br /></div>"
+	 			row = 8
+	 			column = 1   
+				width = medium
+			)
+			Cleaning_requirements
+			(
+				type = section
+				displayname = "Cleaning requirements"
+	 			row = 9
+	 			column = 0   
+				width = medium
+			)
+			Clean
+			(
+				type = radiobuttons
+				displayname = "Cleaning system"
+				maxchar = 100
+				values = {"Clean Off Place (standard)","Clean In Place","Sterilisation in Place"}
+				initial value = "Clean Off Place (standard)"
+	 			row = 9
+	 			column = 1   
+				width = medium
+			)
+			Extent_of_Supply
+			(
+				type = radiobuttons
+				displayname = "Extent of Supply"
+				maxchar = 100
+				values = {"Quick change dismantling","Fittings|Waterjets|Sprayballs","Fittings|Waterjets|Sprayballs+HMI Cycles","Sterilisation in Place"}
+				initial value = "Quick change dismantling"
+	 			row = 9
+	 			column = 2   
+				width = medium
+			)
+			Validation_requirements
+			(
+				type = section
+				displayname = "Validation requirements"
+	 			row = 10
+	 			column = 0   
+				width = medium
+			)
+			plain5
+			(
+    			type = plaintext
+				value = "<div><span class=\"size\" style=\"font-size: 16px\"><span class=\"colour\" style=\"color: rgb(255, 51, 51)\">Validation Requirements</span></span><br /></div>"
+	 			row = 10
+	 			column = 1   
+				width = medium
+			)
+			Section6
+			(
+				type = section
+				displayname = "Section"
+	 			row = 11
+	 			column = 0   
+				width = medium
+			)
+			must have Validation_extent
+			(
+				type = radiobuttons
+				displayname = "Validation Procedures"
+				maxchar = 100
+				values = {"Required","Not required"}
+				layout = 2
+	 			row = 11
+	 			column = 1   
+				width = medium
+			)
+			Section5
+			(
+				type = section
+				displayname = "Section"
+	 			row = 12
+	 			column = 0   
+				width = medium
+			)
+			FDS_DQ
+			(
+				type = checkboxes	
+				displayname = "FDS/DQ"
+				values = {"Documents","Execution"}
+	 			row = 12
+	 			column = 1   
+				width = medium
+			)
+			IQ_OQ
+			(
+				type = checkboxes	
+				displayname = "IQ/OQ"
+				values = {"Documents","Execution"}
+	 			row = 12
+	 			column = 1   
+				width = medium
+			)
+			FAT
+			(
+				type = checkboxes	
+				values = {"Documents","Execution"}
+	 			row = 12
+	 			column = 1   
+				width = medium
+			)
+			SAT
+			(
+				type = checkboxes	
+				values = {"Documents","Execution"}
+	 			row = 12
+	 			column = 2   
+				width = medium
+			)
+			PQ
+			(
+				type = checkboxes	
+				values = {"Documents","Execution"}
+	 			row = 12
+	 			column = 2   
+				width = medium
+			)
+			Section4
+			(
+				type = section
+				displayname = "Section"
+	 			row = 13
+	 			column = 0   
+				width = medium
+			)
+			plain4
+			(
+    			type = plaintext
+				value = "<div><span class=\"colour\" style=\"color: rgb(255, 51, 51)\"><span class=\"size\" style=\"font-size: 16px\">User Requirement Specification(If provided by customer)</span></span><br /></div>"
+	 			row = 13
+	 			column = 1   
+				width = medium
+			)
+			User_requirment_Specification
+			(
+				type = section
+				displayname = "User Requirement Specification"
+	 			row = 14
+	 			column = 0   
+				width = medium
+			)
+			Documentation_required
+			(
+    			type = checkbox
+				displayname = "Documentation provided"
+				initial value = false
+	 			row = 14
+	 			column = 1   
+				width = medium
+			)
+			File_upload
+			(
+    			type = upload file
+				displayname = "File upload"
+    			file count = 10
+				browse = local_drive, zoho_docs
+	 			row = 14
+	 			column = 2
+				width = medium
+			)
+
+			actions
+			{
+				on add
+				{
+					Next
+					(
+   						type = submit
+   						displayname = "Next"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Settings
+		{
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			theme_preference
+			(
+				type = picklist
+				displayname = "Theme Preference"
+				maxchar = 100
+				values = {"Light","Dark","Auto"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			language_preference
+			(
+				type = picklist
+				displayname = "Language Preference"
+				maxchar = 100
+				values = {"En","Es","Fr","De","Hi","Ja","Pt"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			enable_email_tracking
+			(
+    			type = checkbox
+				displayname = "Enable Email Tracking"
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Carbonatadas
+		{
+			success message = "Data Added Successfully!"
+			Product_specifications
+			(
+				type = section
+				displayname = "Product specifications "
+				visibility = true
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			unique Product_reference
+			(
+    			type = text
+				displayname = "Product reference"
+				initial value = "PROD_01"
+	 			row = 1
+	 			column = 1   
+				width = small
+			)
+			Product_name
+			(
+    			type = text
+				displayname = "Product name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			CO2_Volumes_Min
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Filler_Bowl_Pressure_bar
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Viscosity_cP
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Dissolved_Oxygen_Max_ppb
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Pasteurization_Type
+			(
+    			type = text
+				initial value = "Túnel"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Product_Contact_Material
+			(
+    			type = text
+				initial value = "AISI 304"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			CO2_Volumes_Max
+			(
+				type = number
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Brix_deg
+			(
+				type = number
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Density_kg_L
+			(
+				type = number
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Product_Pressure_At_Filler_bar
+			(
+				type = number
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Target_PU
+			(
+				type = number
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Low_Foam_Valve_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Product_Temp_Fill_C
+			(
+				type = number
+	 			row = 1
+	 			column = 3   
+				width = medium
+			)
+			pH
+			(
+				type = number
+	 			row = 1
+	 			column = 3   
+				width = medium
+			)
+			Foaming_Level
+			(
+    			type = text
+				initial value = "Bajo"
+	 			row = 1
+	 			column = 3   
+				width = medium
+			)
+			Pasteurization_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 3   
+				width = medium
+			)
+			Counterpressure_Filling
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 3   
+				width = medium
+			)
+			Carbonation_System_In_Scope
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 3   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		properties
+		{
+			total entries
+			{
+				allowed count = 10
+			}
+		}
+		}
+		form TPL_Closure_Caps
+		{
+			displayname = "TPL_Closure-Caps"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Named
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Packaging_Type
+			(
+				type = picklist
+				displayname = "Closure type"
+				maxchar = 100
+				values = {"Screwcap","Pilfer proof screwcap","Flip top cap","ROPP Aluminium cap","Guala cap","Cork","Mushroom cork - R.Galandrino","Crown cap","Twistoff Cap","Seamer"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Count_field
+			(
+				type = number
+				displayname = "Count (pcs)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Weight_grs
+			(
+				type = number
+				displayname = "Weight (grs)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Secondary_packaging_type
+			(
+				type = picklist
+				displayname = "Primary material"
+				maxchar = 100
+				values = {"Moulded pulp","PET","rPET","HDPE / PEAD","LDPE / PEBD","PP","PVC","PS","PLA","BOPP","PET/PE laminate","Aluminum laminate","Paper","Paper-Laminate","Glass","Aluminium","Tin","Steel"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Other_Features
+			(
+    			type = text
+				displayname = "Other Features "
+				initial value = "Zipper, Valve, etc."
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			D_Diameter_mm
+			(
+				type = number
+				displayname = "D - Diameter (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			H_Heigth_mm
+			(
+				type = number
+				displayname = "H - Heigth (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Files_upload
+			(
+    			type = upload file
+				displayname = "Files upload"
+    			file count = 10
+				browse = local_drive, zoho_docs
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Empaque_Unitario
+		{
+			displayname = "TPL_Empaque Unitario"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Named
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Packaging_Type
+			(
+				type = picklist
+				displayname = "Unitary Packaging"
+				maxchar = 100
+				values = {"Clamshell","Bag / pouch","Sachet / single-dose sachet","Stick pack","Flow pack","Blister pack","Thermoformed / blister tray","Plastic bottle","Glass bottle","Plastic jar","Glass jar","Jar / pot","Collapsible tube","Vial","Ampoule","Metal tin","Aerosol can","Doypack","Capsule","Sealed tray","Syringe glass","Syringe PE","Sealed cup"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Volume_mL
+			(
+				type = number
+				displayname = "Volume (mL)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Weight_grs
+			(
+				type = number
+				displayname = "Weight (grs)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Count_field
+			(
+				type = number
+				displayname = "Count (pcs)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Secondary_packaging_type
+			(
+				type = picklist
+				displayname = "Primary material"
+				maxchar = 100
+				values = {"Moulded pulp","PET","rPET","HDPE / PEAD","LDPE / PEBD","PP","PVC","PS","PLA","BOPP","PET/PE laminate","Aluminum laminate","Paper","Paper-Laminate","Glass","Aluminium","Tin","Steel"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Other_Features
+			(
+    			type = text
+				displayname = "Other Features "
+				initial value = "Zipper, Valve, etc."
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			D_Diameter_mm
+			(
+				type = number
+				displayname = "D - Diameter (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			L_Lenght_mm
+			(
+				type = number
+				displayname = "L- Lenght (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			b_Width_mm
+			(
+				type = number
+				displayname = "W - Width (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			H_Heigth_mm
+			(
+				type = number
+				displayname = "H - Heigth (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Files_upload
+			(
+    			type = upload file
+				displayname = "Files upload"
+    			file count = 10
+				browse = local_drive, zoho_docs
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Empaque_terciario
+		{
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Terciary_packaging_type
+			(
+				type = picklist
+				displayname = "Terciary-packaging type"
+				maxchar = 100
+				values = {"RSC_Regular_Slotted_Container","Tray_Shrink_Wrap","Wraparound_Case","Display_Ready_Case","Partition_Case","Shrink_Multipack","Shrink_Tray","Stretch_Bundle","Plastic_Crate","Thermoform_Tray","Clip_Carrier","Ring_Carrier","Fiber_Carrier","Bulk_Bag_Liner","Gaylord_Box","Drum_Secondary","Cluster_Pack","Bag_in_Box_Carton"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Packaging_material
+			(
+				type = picklist
+				displayname = "Packaging material"
+				maxchar = 100
+				values = {"Corrugated_Cardboard","Paperboard","LDPE_Shrink_Film","LLDPE_Stretch_Film","HDPE_PP_Crate","Plastic_Thermoform","Fiber_Molded"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Units_Per_Case
+			(
+				type = number
+				displayname = "Units_Per_Case/ Pack"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Array
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Case_pack_Length_mm
+			(
+				type = number
+				displayname = "Length (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Case_Width_mm
+			(
+				type = number
+				displayname = "Width (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Case_Height_mm
+			(
+				type = number
+				displayname = "Height (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Case_Gross_Weight_kg
+			(
+				type = decimal
+				displayname = "Gross weight (kg)"
+				decimalplace = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Board_Grade
+			(
+    			type = text
+				initial value = "Single_Wall"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Closure_type
+			(
+				type = picklist
+				displayname = "Closure type"
+				maxchar = 100
+				values = {"Tape","Glue","Interlock","Strap"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Shrink_Film_Gauge_micron
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			File_upload
+			(
+    			type = upload file
+				displayname = "File upload"
+				browse = local_drive
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_No_Carbonatadas
+		{
+			displayname = "TPL_Flat_Beverages"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Requirement_ID
+			(
+    			type = text
+				initial value = "REQ-2026-001"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Fill_Process
+			(
+    			type = text
+				initial value = "Frío"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Product_Temp_Fill_C
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Brix_deg
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			pH
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Density_kg_L
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Viscosity_Min_cP
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Viscosity_Max_cP
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Pulp_Content_pct
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Particle_Size_Max_mm
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Fiber_Length_Max_mm
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Foaming_Level
+			(
+    			type = text
+				initial value = "Bajo"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Shear_Sensitive
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Aseptic_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			UHT_Upstream
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Nitrogen_Dosing
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Preservatives_Used
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Allergens
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Product_Contact_Material
+			(
+    			type = text
+				initial value = "AISI 304"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Labelling_formats
+		{
+			displayname = "TPL_Labelling formats"
+			success message = "Data Added Successfully!"
+			feature property = 640
+			Unitary_packaging1
+			(
+				type = section
+				displayname = "Labelling Formats"
+				visibility = true
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Unitary_Packaging
+			(
+				type = picklist
+				displayname = "Labelling type"
+				values = {"Bottle","Self Adhesive labels","Shrink Sleeving","Hotmelt","Cold Glue","Wet glue","Rollfed"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Material_Type
+			(
+				type = picklist
+				displayname = "Material / Type"
+				values = {"Carton","Paper","Laminated","Synthetic labels"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Dimensions1
+			(
+    			type = text
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Dimensions2
+			(
+    			type = text
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Array
+			(
+    			type = text
+				displayname = "Placement type:"
+	 			row = 1
+	 			column = 2   
+				width = medium
+			)
+			Image
+			(
+    			type = image
+				source  = file
+    			file count = 7
+				camera = primary
+				preview duration = 5
+				show gallery = true
+				submit onscan = true
+	 			row = 1
+	 			column = 3   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Liquidos_Farma_import
+		{
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Product_ID
+			(
+    			type = text
+				displayname = "Farma Liquid products"
+				initial value = "LF-2026-001"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Dropdown
+			(
+				type = picklist
+				displayname = "Drop Down"
+				maxchar = 100
+				values = {"Solutions for injection (IV, IM, SC)","Suspensions for injection","Emulsions for injection","Concentrates for infusion (diluted before use)","Topical/Dermal","Lotions","Liniments","Topical solutions","Collodions","Ophthalmic","Eye drops (solutions)","Ophthalmic suspensions","Ear drops","Nasal drops","Nasal solutions/sprays (liquid form)","Nebulizer solutions","Inhalation solutions","Solutions (syrups, elixirs, oral drops)","Suspensions (oral suspensions)","Emulsions (oral emulsions)","Tinctures (Merthiolate)","Oral drops (concentrated solutions)"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Viscosity_cP
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Density_kg_L
+			(
+				type = decimal
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			pH
+			(
+				type = decimal
+				decimalplace = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Osmolarity_mOsm_L
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Product_Temp_Fill_C
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Fill_Volume_Min_mL
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Fill_Volume_Max_mL
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Sterility_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Aseptic_Fill_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Preservative_System
+			(
+    			type = text
+				initial value = "Benzalkonium Chloride"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Light_Sensitive
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Contains_Particulates
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Particle_Size_Max_mm
+			(
+				type = decimal
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Foaming_Level
+			(
+    			type = text
+				initial value = "Low"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Container_Material
+			(
+    			type = text
+				initial value = "Glass"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Closure_Type
+			(
+    			type = text
+				initial value = "Screw Cap"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Tamper_Evident_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Child_Resistant_Closure
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Inert_Gas_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Inert_Gas_Type
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Cold_Chain_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Shelf_Life_Months
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Regulatory_Classification
+			(
+    			type = text
+				initial value = "OTC"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Non_Beverage_liquids
+		{
+			displayname = "TPL_Non Beverage_liquids"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Non_Beverage_Liquids
+			(
+				type = picklist
+				displayname = "Non Beverage Liquids"
+				maxchar = 100
+				values = {"Choice 1","Choice 2","Choice 3","Cleaning products","Liquid detergents (laundry, dish)","All-purpose cleaners","Bleach","Disinfectants","Glass cleaners","Face-Body Lotions","Liquid hand","Mouthwash","Liquid makeup removers","Solvents","Industrial cleaners/degreasers","Adhesives (liquid)","Antifreeze/coolant","Windshield washer fluid","Brake fluid","Liquid fertilizers","Agrochemical solutions/herbicides","Pesticides (liquid concentrates)"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Pallet_Logistics_import
+		{
+			displayname = "TPL_Pallet_Specs"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Pallet_Standard
+			(
+				type = picklist
+				displayname = "Pallet Standard"
+				maxchar = 100
+				values = {"GMA pallet (48\" x 40\")","Standard 48x48","42\" x 42\" Telecom-Retail"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Pallet_material1
+			(
+				type = picklist
+				displayname = "Pallet material"
+				maxchar = 100
+				values = {"Wood","Plastic"}
+				initial value = "Wood"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Entry_Type
+			(
+    			type = text
+				initial value = "4-Way"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Units_Per_Pallet
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Layers_Per_Pallet
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Units_Per_Layer
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Max_Stack_Height_mm
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Max_Pallet_Weight_kg
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Stretch_Wrap_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Corner_Boards_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Slip_Sheet_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Double_Stacking_Allowed
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Top_Bottom_Load
+			(
+    			type = checkbox
+				displayname = "Top-Bottom Load"
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Robot_Type_not_admitted
+			(
+    			type = checkbox
+				displayname = "Robot Type not admitted"
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Top_Wood_Frame
+			(
+    			type = checkbox
+				displayname = "Top Wood Frame"
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Image
+			(
+    			type = image
+				source  = file
+				aspect ratio = original
+				camera = primary
+				show gallery = true
+				switch camera = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			File_upload
+			(
+    			type = upload file
+				displayname = "File upload"
+				browse = local_drive
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Secondary_packaging
+		{
+			displayname = "TPL_Secondary packaging"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Named
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Packaging_Type
+			(
+				type = picklist
+				displayname = "Packaging type"
+				maxchar = 100
+				values = {"Stand up Pouch","VFF&S pouch","Carton","Display trays","Overwrapping","Banding","Metal Can","Carton Can","Clamshell"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Secondary_packaging_type
+			(
+				type = picklist
+				displayname = "Primary material"
+				maxchar = 100
+				values = {"SBS board","Kraft board","Micro-corrugated board","E-flute corrugated board","B-flute corrugated board","PET window","BOPP","Cellophane","EVA / foam","Moulded pulp"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Pcs_per_pack
+			(
+				type = number
+				displayname = "Pcs per pack"
+				maxchar = 2
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Components
+			(
+				type = picklist
+				maxchar = 100
+				values = {"Insert / cradle","Internal divider","Instructions / leaflet","Overwrap film","Tamper-evident seal"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			a_Lenght_mm
+			(
+				type = number
+				displayname = "a- Lenght (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			b_Width_mm
+			(
+				type = number
+				displayname = "b - Width (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			c_Heigth_mm
+			(
+				type = number
+				displayname = "c - Heigth (mm)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Files_upload
+			(
+    			type = upload file
+				displayname = "Files upload"
+    			file count = 10
+				browse = local_drive, zoho_docs
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Semiliq_NoAlim
+		{
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Non_Food_Seliquids
+			(
+				type = picklist
+				displayname = "Non Food Seliquids Products"
+				maxchar = 100
+				values = {"Shampoos and conditioners","Body washes and liquid soaps","Lotions and creams","Gels (hair gel, shower gel)","Toothpaste","Sunscreen lotions","Liquid detergents (laundry, dish soap)","Fabric softeners","All-purpose cleaners (gel/cream formulations)","Liquid hand soap","Wax and polish pastes","Adhesives and sealants","Paints and coatings (viscous formulations)","Lubricants and greases","Resins","Silicones","Topical ointments and gels","Veterinary pastes/gels","Agrochemical suspensions/pastes","Fertilizer gels","Grease and lubricant pastes","Car wax and polish"}
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Viscosity_Min_cP
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Viscosity_Max_cP
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Viscosity_Test_Temp_C
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Viscosity_Method
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Density_kg_L
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Product_Temp_Fill_C
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Rheology_Type
+			(
+    			type = text
+				initial value = "Newtoniano"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Shear_Sensitive
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Stringiness_Level
+			(
+    			type = text
+				initial value = "Baja"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Foaming_Level
+			(
+    			type = text
+				initial value = "Bajo"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Entrained_Air
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Particle_Content_pct
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Particle_Size_Max_mm
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Corrosive_Product
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Solvent_Based
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Flammable_Product
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Chemical_Compatibility
+			(
+    			type = text
+				initial value = "Ejemplo Compatibilidad química"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Seal_Material_Required
+			(
+    			type = text
+				initial value = "EPDM"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Hopper_Agitation
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Heated_Hopper
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Semiliquid_Products1
+		{
+			displayname = "TPL_Semiliquid Products"
+			success message = "Data Added Successfully!"
+			Section1
+			(
+				type = section
+				displayname = "Section"
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Semiliquid_Type
+			(
+				type = picklist
+				displayname = "Semiliquid Type"
+				maxchar = 100
+				values = {"Cosmetic creams","Body lotions","Hair and body gels","Shampoos and conditioners","Viscous liquid soaps","Toothpastes","Ointments and creams","Topical pharmaceutical creams","Antiseptic gels","Adhesives and glues","Sealants and silicones","Paints and coatings","Printing inks","Greases and lubricants","Concentrated detergents","Fabric softeners and gel cleansers","Resins and chemical compounds","Industrial fillers and pastes","Liquid or semi-paste waxes","Agrochemical products in gel or suspension form"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Section
+			(
+				type = section
+	 			row = 2
+	 			column = 0   
+				width = medium
+			)
+			Sensibilidad_al_ox_geno
+			(
+    			type = text
+				displayname = "Sensibilidad al oxígeno"
+				initial value = "si"
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			CPS
+			(
+				type = number
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Tama_o_m_ximo_de_part_cula
+			(
+				type = decimal
+				displayname = "Max. particle size"
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Temperatura_del_producto_al_llenar
+			(
+				type = number
+				displayname = "Temperatura del producto al llenar"
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			Producto_corrosivo
+			(
+    			type = text
+				displayname = "Producto corrosivo"
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			pH_m_nimo
+			(
+				type = number
+				displayname = "pH mínimo"
+	 			row = 2
+	 			column = 2   
+				width = medium
+			)
+			Presencia_de_pulpa_o_part_culas
+			(
+    			type = text
+				displayname = "Pulp or suspended solids"
+				initial value = "no"
+	 			row = 2
+	 			column = 2   
+				width = medium
+			)
+			Contenido_de_alcohol
+			(
+				type = number
+				displayname = "Alcohol Vol"
+	 			row = 2
+	 			column = 2   
+				width = medium
+			)
+			Riesgo_microbiol_gico
+			(
+    			type = text
+				displayname = "Riesgo microbiológico"
+	 			row = 2
+	 			column = 2   
+				width = medium
+			)
+			Densidad
+			(
+    			type = text
+	 			row = 2
+	 			column = 3   
+				width = medium
+			)
+			pH_m_ximo
+			(
+				type = number
+				displayname = "pH max"
+	 			row = 2
+	 			column = 3   
+				width = medium
+			)
+			Sugar_contents
+			(
+				type = decimal
+				displayname = "Sugar contents"
+	 			row = 2
+	 			column = 3   
+				width = medium
+			)
+			Temperatura_m_xima_permitida
+			(
+    			type = text
+				displayname = "Temperatura máxima permitida"
+	 			row = 2
+	 			column = 3   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Semiliquids_Food
+		{
+			displayname = "TPL_Semiliquids-Food"
+			success message = "Data Added Successfully!"
+			Non_Foods
+			(
+				type = section
+				displayname = "Non Food Semiliquids"
+				visibility = true
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Product_Type
+			(
+				type = picklist
+				displayname = "Product Type"
+				maxchar = 100
+				values = {"Sauces","Dressings","Mayonnaise","Ketchup","Mustard","Jams / preserves","Honey","Spreads","Yogurt","Desserts and puddings","Purees","Food pastes","Condensed milk","Syrups","Bakery fillings"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Density
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			fat_content
+			(
+    			type = percentage
+				displayname = "Fat Content"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			sugar_content
+			(
+    			type = percentage
+				displayname = "Sugar Content"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			texture
+			(
+				type = picklist
+				displayname = "Texture"
+				maxchar = 100
+				values = {"Smooth","Creamy","Thick","Runny","Chunky"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Viscosity
+			(
+				type = number
+				displayname = "Viscosity (CPs)"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			BRIX
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Temperau
+			(
+				type = number
+				displayname = "Temperature ºC"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Solidos_Farma
+		{
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Dosage_form
+			(
+				type = picklist
+				displayname = "Dosage form"
+				maxchar = 100
+				values = {"Tablets (Round pills)","Caplet","Coated tablets (grageas)","Extended-release/controlled-release tablets","Effervescent tablets","Chewable tablets","Sublingual/buccal tablets","Hard gelatin capsules","Sogtgel Capsules","Extended-release capsules","Granules","Powders (sachets, powders for reconstitution)","Coated pellets/granules","Oral freeze-dried products (rapid-dissolving films)","Suppositories (rectal)","Ovules (vaginal)"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Solid_Pharma_Product_ID
+			(
+    			type = text
+				initial value = "REQ-2026-001"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Unit_Weight_mg
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Unit_Weight_Tolerance_pct
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Length_mm
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Width_mm
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Thickness_mm
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Shape
+			(
+    			type = text
+				initial value = "Redonda"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Tablet_Hardness_N
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Hygroscopic
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Dustiness_Level
+			(
+    			type = text
+				initial value = "Baja"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Potent_Compound
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			OEB_Level
+			(
+    			type = text
+				initial value = "OEB 1"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			OEL_ug_m3
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Containment_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Batch_Size_Min_kg
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Batch_Size_Max_kg
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Required_Throughput_units_h
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			GMP_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Serialization_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Vision_Inspection
+			(
+    			type = text
+				initial value = "Color"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Metal_Detection_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Room_RH_Max_pct
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Solids_Food
+		{
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Solid_Food_Type
+			(
+				type = picklist
+				displayname = "Solid Food Type"
+				maxchar = 100
+				values = {"Potato chips and corn snacks","Nuts and seeds (peanuts, walnuts, pistachios)","Crackers","Cereal/granola bars","Grains & Cereals","Breakfast cereals (flakes, granola)","Spices & Condiments","Salt, Sugar","Bouillon (powder or cubes)","Seasoning blends","Preserves & Canned Goods","Premix beverage powders (Tea, electrolytes)","Olives","Pickles","Canned/jarred vegetables","Canned fruit","Dry Petfood  (dog, cat)","Chewable treats","Dehydrated or freeze-dried pet food","Dehydrated products (fruits, vegetables)","Dietary supplements (tablet or powder)","Instant powdered soups","Powdered infant formula"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Piece_Weight_Min_g
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Piece_Weight_Max_g
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Bulk_Density_kg_m3
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Flowability
+			(
+    			type = text
+				initial value = "Libre"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Fragility_Level
+			(
+    			type = text
+				initial value = "Baja"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Stickiness_Level
+			(
+    			type = text
+				initial value = "Baja"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Dustiness_Level
+			(
+    			type = text
+				initial value = "Baja"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Oil_Content_Level
+			(
+    			type = text
+				initial value = "Bajo"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Moisture_pct
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Product_Temp_C
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Target_Pack_Weight_g
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Allowed_Giveaway_pct
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Package_Type
+			(
+    			type = text
+				initial value = "Bolsa"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			MAP_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			MAP_Gas_Composition
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Metal_Detection_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Checkweigher_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Allergens
+			(
+    			type = text
+				initial value = "Ejemplo Alérgenos"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form TPL_Spirits_Liquors
+		{
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			unique Alc_Product_ID
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Alcohol_ABV_pct
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			CO2_Volumes
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Product_Temp_Fill_C
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Brix_deg
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			pH
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Density_kg_L
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Viscosity_cP
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Flash_Point_C
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Hazardous_Area_Zone
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Dissolved_Oxygen_Max_ppb
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Total_Package_Oxygen_Max_ppb
+			(
+				type = number
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Inert_Gas_Type
+			(
+    			type = text
+				initial value = "CO₂"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Pre_Evacuation_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Pasteurization_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Closure_Application
+			(
+    			type = text
+				initial value = "Corona"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Tax_Stamp_Required
+			(
+    			type = checkbox
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+	}
+	reports
+	{
+		list Opportunity_Comments_Report
+		{
+			displayName = "Comentarios de Oportunidades"
+			show all rows from Opportunity_Comments
+			(
+				Opportunity as "Oportunidad"
+				Comment as "Comentario"
+				Commented_By as "Autor"
+			)
+			filters
+			(
+				Opportunity
+			)
+		}
+		list Sales_Leads_Co
+		{
+			displayName = "View Companies"
+			show all rows from Lead_Company    
+			(
+				Name 
+				Mobile_Number as "Mobile Number"
+				Job_Title as "Job Title"
+				Email_Id as "Email Id"
+				Website
+				Employee_Count as "Employee Count"
+			)
+		}
+		list Partner_companies_Report
+		{
+			displayName = "Partner companies Report"
+			show all rows from Add_Partner_companies    
+			(
+				Machinery_range as "Machinery range"
+				Partner_Company_name as "Partner Company name"
+				Address 
+	 			(
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				Email
+				Phone
+			)
+		}
+		list Pipeline_tracking_39684ba17bf5800aace7df_Report
+		{
+			displayName = "Opportunities Pipeline View"
+			show all rows from New_Opportunity    
+			(
+				Partner_companies as "Partner companies"
+				(
+					delimiter = comma
+				)
+				Opportunity_reference as "Opportunity Reference"
+				Lead_Company.Company_name as "Company name"
+				Client_Site.site_name as "Site Name"
+				Deal_Stage as "Deal Stage"
+				Opportunity_ID_Text
+				Status as "Status | Priority"
+			)
+			filters
+			(
+				Partner_companies
+			)
+		}
+		custom Opportunity_URS_Report
+		{
+			displayName = "Opportunity URS Report"
+			show all rows from Opportunity_Products    
+			customlayouts
+			(
+				template
+	 			(
+	 	  			displayname="Custom Layout 1"
+	 	  			content="<panel  \n >\n	<pr \n			width='fill'\n		height='fill'\n>\n	<pc \n		padding = '17px'\n	bgColor = '#FFFFFF'\n\n		width = '100%'\n		hAlign = 'center'\n		vAlign = 'middle'\n>\n	<pr \n			width='auto'\n		height='auto'\n>\n	<pc \n	\n>\n	\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>"
+	    		)
+			)
+		}
+		list URS_Report
+		{
+			displayName = "URS Report"
+			show all rows from Opportunity_Requirements    
+			(
+				Products_month as "Products/month"
+				Hours_per_shift as "Hours per shift"
+				Shifts_day as "Shifts/day"
+				Days_per_Month as "Days per Month"
+			)
+		}
+		default list Productos_Semiliquidos_Report
+		{
+			displayName = "Productos Semiliquidos Reporte"
+			show all rows from TPL_Semiliquids_Food    
+			(
+				Density
+				fat_content as "Fat Content"
+				sugar_content as "Sugar Content"
+				texture as "Texture"
+				Viscosity as "Viscosity (CPs)"
+				BRIX
+				Temperau as "Temperature ºC"
+				Product_Type as "Product Type"
+			)
+		}
+		default list Copy_of_Carbonated_beverages_Report
+		{
+			displayName = "Copy of Carbonated beverages Report"
+			show all rows from TPL_Semiliquid_Products1    
+			(
+				Sensibilidad_al_ox_geno as "Sensibilidad al oxígeno"
+				Tama_o_m_ximo_de_part_cula as "Max. particle size"
+				Temperatura_del_producto_al_llenar as "Temperatura del producto al llenar"
+				pH_m_nimo as "pH mínimo"
+				Presencia_de_pulpa_o_part_culas as "Pulp or suspended solids"
+				Contenido_de_alcohol as "Alcohol Vol"
+				Producto_corrosivo as "Producto corrosivo"
+				Riesgo_microbiol_gico as "Riesgo microbiológico"
+				Densidad
+				pH_m_ximo as "pH max"
+				Sugar_contents as "Sugar contents"
+				Temperatura_m_xima_permitida as "Temperatura máxima permitida"
+				Semiliquid_Type as "Semiliquid Type"
+				CPS
+			)
+		}
+		default list Projects_Report
+		{
+			displayName = "Projects Reporte"
+			show all rows from New_Project_Form    
+			(
+				Project_Description as "Project Description"
+				Client_Site as "Client Site"
+				Lead_Company as "Add Client Company"
+				File_upload as "File upload"
+				Project_ID as "Project_reference"
+				Project_ID1 as "Project_ID"
+				Reference_Description as "Reference/Description"
+			)
+		}
+		default list Sitios_Report
+		{
+			displayName = "Sitios Reporte"
+			show all rows from Client_Sites    
+			(
+				site_name as "Site Name"
+				address  as "Address"
+	 			(
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				Site_ID
+				Contact
+				Lookup_Client_Company as "Lookup Client Company"
+				File_upload as "File upload"
+			)
+		}
+		list TPL_Alcoholicas_Report
+		{
+			displayName = "TPL_Alcoholicas Report"
+			show all rows from TPL_Spirits_Liquors    
+			(
+				Alcohol_ABV_pct
+				CO2_Volumes
+				Product_Temp_Fill_C
+				Brix_deg
+				pH
+				Density_kg_L
+				Viscosity_cP
+				Flash_Point_C
+				Hazardous_Area_Zone
+				Dissolved_Oxygen_Max_ppb
+				Total_Package_Oxygen_Max_ppb
+				Inert_Gas_Type
+				Pre_Evacuation_Required
+				Pasteurization_Required
+				Closure_Application
+				Tax_Stamp_Required
+			)
+		}
+		list TPL_Solidos_Farma_Report
+		{
+			displayName = "TPL_Solidos_Farma Report"
+			show all rows from TPL_Solidos_Farma    
+			(
+				Solid_Pharma_Product_ID
+				Unit_Weight_mg
+				Unit_Weight_Tolerance_pct
+				Length_mm
+				Width_mm
+				Thickness_mm
+				Shape
+				Tablet_Hardness_N
+				Hygroscopic
+				Dustiness_Level
+				Potent_Compound
+				OEB_Level
+				OEL_ug_m3
+				Containment_Required
+				Batch_Size_Min_kg
+				Batch_Size_Max_kg
+				Required_Throughput_units_h
+				GMP_Required
+				Serialization_Required
+				Vision_Inspection
+				Metal_Detection_Required
+				Room_RH_Max_pct
+			)
+		}
+		list TPL_Solidos_Alim_Report
+		{
+			displayName = "TPL_Solidos_Alim Report"
+			show all rows from TPL_Solids_Food    
+			(
+				Piece_Weight_Min_g
+				Piece_Weight_Max_g
+				Bulk_Density_kg_m3
+				Flowability
+				Fragility_Level
+				Stickiness_Level
+				Dustiness_Level
+				Oil_Content_Level
+				Moisture_pct
+				Product_Temp_C
+				Target_Pack_Weight_g
+				Allowed_Giveaway_pct
+				Package_Type
+				MAP_Required
+				MAP_Gas_Composition
+				Metal_Detection_Required
+				Checkweigher_Required
+				Allergens
+			)
+		}
+		list TPL_No_Carbonatadas_Report
+		{
+			displayName = "TPL_No_Carbonatadas Report"
+			show all rows from TPL_No_Carbonatadas    
+			(
+				Requirement_ID
+				Fill_Process
+				Product_Temp_Fill_C
+				Brix_deg
+				pH
+				Density_kg_L
+				Viscosity_Min_cP
+				Viscosity_Max_cP
+				Pulp_Content_pct
+				Particle_Size_Max_mm
+				Fiber_Length_Max_mm
+				Foaming_Level
+				Shear_Sensitive
+				Aseptic_Required
+				UHT_Upstream
+				Nitrogen_Dosing
+				Preservatives_Used
+				Allergens
+				Product_Contact_Material
+			)
+		}
+		list TPL_Carbonatadas_Report
+		{
+			displayName = "TPL_Carbonatadas Report"
+			show all rows from TPL_Carbonatadas    
+			(
+				CO2_Volumes_Min
+				CO2_Volumes_Max
+				Product_Temp_Fill_C
+				Filler_Bowl_Pressure_bar
+				Brix_deg
+				pH
+				Density_kg_L
+				Viscosity_cP
+				Foaming_Level
+				Dissolved_Oxygen_Max_ppb
+				Product_Pressure_At_Filler_bar
+				Pasteurization_Required
+				Pasteurization_Type
+				Target_PU
+				Counterpressure_Filling
+				Low_Foam_Valve_Required
+				Product_Contact_Material
+				Carbonation_System_In_Scope
+			)
+		}
+		list TPL_Semiliq_NoAlim_Report
+		{
+			displayName = "TPL_Semiliq_NoAlim Report"
+			show all rows from TPL_Semiliq_NoAlim    
+			(
+				Viscosity_Min_cP
+				Viscosity_Max_cP
+				Viscosity_Test_Temp_C
+				Viscosity_Method
+				Density_kg_L
+				Product_Temp_Fill_C
+				Rheology_Type
+				Shear_Sensitive
+				Stringiness_Level
+				Foaming_Level
+				Entrained_Air
+				Particle_Content_pct
+				Particle_Size_Max_mm
+				Corrosive_Product
+				Solvent_Based
+				Flammable_Product
+				Chemical_Compatibility
+				Seal_Material_Required
+				Hopper_Agitation
+				Heated_Hopper
+			)
+		}
+		default list Settings_Report
+		{
+			displayName = "Settings Reporte"
+			show all rows from Settings    
+			(
+				theme_preference as "Theme Preference"
+				language_preference as "Language Preference"
+				enable_email_tracking as "Enable Email Tracking"
+			)
+		}
+		default list Copy_of_Unitary_packaging_Formats_Report1
+		{
+			displayName = "Copy of Unitary packaging Formats Report"
+			show all rows from Labelling_formats    
+			(
+				Auto_Number as "Auto Number"
+				Unitary_Packaging as "Labelling type"
+				Material_Type as "Material / Type"
+				Dimensions1
+				Dimensions2
+				Array as "Placement type:"
+				Image
+			)
+		}
+		default list TPL_Non_Beverage_liquids_Report
+		{
+			displayName = "TPL_Non Beverage_liquids Reporte"
+			show all rows from TPL_Non_Beverage_liquids    
+			(
+				Auto_Number as "Auto Number"
+				Non_Beverage_Liquids as "Non Beverage Liquids"
+			)
+		}
+		list TPL_Liquidos_Farma_import_Report
+		{
+			displayName = "TPL_Liquidos_Farma_import Report"
+			show all rows from TPL_Liquidos_Farma_import    
+			(
+				Product_ID as "Farma Liquid products"
+				Viscosity_cP
+				Density_kg_L
+				pH
+				Osmolarity_mOsm_L
+				Product_Temp_Fill_C
+				Fill_Volume_Min_mL
+				Fill_Volume_Max_mL
+				Sterility_Required
+				Aseptic_Fill_Required
+				Preservative_System
+				Light_Sensitive
+				Contains_Particulates
+				Particle_Size_Max_mm
+				Foaming_Level
+				Container_Material
+				Closure_Type
+				Tamper_Evident_Required
+				Child_Resistant_Closure
+				Inert_Gas_Required
+				Inert_Gas_Type
+				Cold_Chain_Required
+				Shelf_Life_Months
+				Regulatory_Classification
+			)
+		}
+		list Pallet_Logistics_import_Report
+		{
+			displayName = "Pallet_Logistics_import Report"
+			show all rows from Pallet_Logistics_import    
+			(
+				Entry_Type
+				Units_Per_Pallet
+				Layers_Per_Pallet
+				Units_Per_Layer
+				Max_Stack_Height_mm
+				Max_Pallet_Weight_kg
+				Stretch_Wrap_Required
+				Corner_Boards_Required
+				Slip_Sheet_Required
+				Double_Stacking_Allowed
+			)
+		}
+		list TPL_Empaque_Secundario_import_Report
+		{
+			displayName = "TPL_Empaque_Secundario_import Report"
+			show all rows from TPL_Empaque_terciario    
+			(
+				Units_Per_Case as "Units_Per_Case/ Pack"
+				Case_pack_Length_mm as "Length (mm)"
+				Case_Width_mm as "Width (mm)"
+				Case_Height_mm as "Height (mm)"
+				Case_Gross_Weight_kg as "Gross weight (kg)"
+				Board_Grade
+				Shrink_Film_Gauge_micron
+			)
+		}
+		default list TPL_Secondary_packaging_Report
+		{
+			displayName = "TPL_Secondary packaging Reporte"
+			show all rows from TPL_Secondary_packaging    
+			(
+				Named
+				Secondary_packaging_type as "Primary material"
+				Packaging_Type as "Packaging type"
+				a_Lenght_mm as "a- Lenght (mm)"
+				b_Width_mm as "b - Width (mm)"
+				c_Heigth_mm as "c - Heigth (mm)"
+				Components
+				Files_upload as "Files upload"
+				Pcs_per_pack as "Pcs per pack"
+			)
+		}
+		default list Copy_of_TPL_Secondary_packaging_Report
+		{
+			displayName = "Copy of TPL_Secondary packaging Report"
+			show all rows from TPL_Empaque_Unitario    
+			(
+				Named
+				Packaging_Type as "Unitary Packaging"
+				Secondary_packaging_type as "Primary material"
+				L_Lenght_mm as "L- Lenght (mm)"
+				b_Width_mm as "W - Width (mm)"
+				H_Heigth_mm as "H - Heigth (mm)"
+				Files_upload as "Files upload"
+				D_Diameter_mm as "D - Diameter (mm)"
+				Volume_mL as "Volume (mL)"
+				Weight_grs as "Weight (grs)"
+				Count_field as "Count (pcs)"
+				Other_Features as "Other Features "
+				Auto_Number as "Auto Number"
+			)
+		}
+		default list Copy_of_TPL_Empaque_Unitario_Report
+		{
+			displayName = "Copy of TPL_Empaque Unitario Report"
+			show all rows from TPL_Closure_Caps    
+			(
+				Auto_Number as "Auto Number"
+				Named
+				Packaging_Type as "Closure type"
+				Weight_grs as "Weight (grs)"
+				Count_field as "Count (pcs)"
+				Secondary_packaging_type as "Primary material"
+				Other_Features as "Other Features "
+				D_Diameter_mm as "D - Diameter (mm)"
+				H_Heigth_mm as "H - Heigth (mm)"
+				Files_upload as "Files upload"
+			)
+		}
+	}
+	pages
+	{
+		page Formulario_Zoho_forms_Iframe
+		{
+			displayname = "Formulario Zoho forms Iframe"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\twebDeviceConfig='{\"layout\":{\"displayType\":\"card\",\"design\":\"fluid\",\"style\":\"padding-right:0px;padding-top:0px;padding-bottom:0px;padding-left:0px;\"}}'\n\t\t\n\t\t\n>\n\t<layout>\n\t\n</layout>\n</zml>"
+		}
+		page Calendario
+		{
+			displayname = "Calendario"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t\n</layout>\n</zml>"
+		}
+		page Main_Page
+		{
+			displayname = "Main Page"
+			Content="<zml    \n\t\t\tisPdfEnabled='true'\n\t\t\n\t\t\tisPrintEnabled='true'\n\t\t\n\t\t\tbgColor='#F4F4F5'\n\t\t\n\t\t\twebDeviceConfig='{\"layout\":{\"displayType\":\"card\",\"design\":\"fluid\",\"style\":\"padding-right:50px;padding-top:20px;padding-bottom:50px;padding-left:0px;\"}}'\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='34%'\n   \t>\n\t<chart \n\telementName='Chart'\n\n\t\n\ttitle = 'Sigmapack Opportunity Specifications Hub'\n\t\n\t\ttitleSize = '24px'\n\t\ttitleColor = '#222326'\n\ttype = 'Donut'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme2'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\timportedTemplate = 'true'\n/>\n\n</column><column\n   \t\t width='30%'\n   \t>\n\t<chart \n\telementName='Chart 1'\n\n\ttype = 'Donut'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\timportedTemplate = 'true'\n/>\n\n</column><column\n   \t\t width='36%'\n   \t>\n\t<row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginRight = '7px' \n\n\tcolor = '#FFFFFF'\n\tbgColor = '#0ABB51'\n\twidth = '52px'\n\theight = '52px'\n\ttype = 'icon'\n\tvalue = 'education-grammar-check'\n\tsize = '24px'\n\tcornerRadius = '26px'\n\ticonType = 'solid'\n/>\n</pc><pc \n\t\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n\t\thAlign = 'left'\n>\n\t<text \n\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Approvals pending'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n\t\thAlign = 'left'\n>\n\t<text \n\n\tmarginTop = '2px'\n\tcolor = '#0ABB51'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = '25'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel 1'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginRight = '7px' \n\n\tcolor = '#FFFFFF'\n\tbgColor = '#2A70E7'\n\twidth = '52px'\n\theight = '52px'\n\ttype = 'icon'\n\tvalue = 'files-no-access'\n\tsize = '24px'\n\tcornerRadius = '26px'\n\ticonType = 'solid'\n/>\n</pc><pc \n\t\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n\t\thAlign = 'left'\n>\n\t<text \n\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Requests declined'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n\t\thAlign = 'left'\n>\n\t<text \n\n\tmarginTop = '2px'\n\tcolor = '#2A70E7'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = '10'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row>\n</column>\n</row><row>\n\t<column\n   \t\t width='50%'\n   \t>\n\t<report \n\telementName='Report'\n\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'Sales_Leads_Co'\n\t\n\t\tiszreport = 'false'\n\theightType = 'auto'\n\theightValue = '700'\n\n/>\n</column><column\n   \t\t width='50%'\n   \t>\n\t<form \n\telementName='Form'\n\n\tappLinkName = 'thisapp'\n\tlinkName = 'Lead_Company'\n\tzc_Header = 'true'\n/> \n</column>\n</row>\n</layout>\n</zml>"
+		}
+		page Opportunity_Hub_Home
+		{
+			displayname = "Inicio"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='50%'\n   \t>\n\t<panel elementName='Panel'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n\t\thAlign = 'center'\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<image  \n\t\n\tcolor = '#FF614E'\n\tbgColor = '#FFFFFF'\n\twidth = '52px'\n\theight = '52px'\n\ttype = 'icon'\n\tvalue = 'location-flag'\n\tsize = '32px'\n\ticonType = 'solid'\n/>\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginTop = '3px'\n\tcolor = '#FF614E'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = '12'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginTop = '3px'\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Oportunidades Abiertas'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='50%'\n   \t>\n\t<panel elementName='Panel 1'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<image  \n\t\n\tcolor = '#6288EA'\n\tbgColor = '#FFFFFF'\n\twidth = '52px'\n\theight = '52px'\n\ttype = 'icon'\n\tvalue = 'design-bullet-list-69'\n\tsize = '32px'\n\ticonType = 'solid'\n/>\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginTop = '3px'\n\tcolor = '#4C7DE8'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = '4'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginTop = '3px'\n\tcolor = '#333333'\n\tsize = '16px'\n\ttype = 'Text'\n\n\n\n\n\n\n\n\t  value = 'Comentarios Recientes'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='50%'\n   \t>\n\t<form \n\telementName='Form'\n\n\tappLinkName = 'thisapp'\n\tlinkName = 'New_Opportunity'\n\tzc_Header = 'true'\n/> \n</column><column\n   \t\t width='50%'\n   \t>\n\t<report \n\telementName='Report'\n\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'Pipeline_tracking_39684ba17bf5800aace7df_Report'\n\t\n\t\tiszreport = 'false'\n\n/>\n</column>\n</row><row>\n\t<column\n   \t\t width='50%'\n   \t>\n\t<panel elementName='Panel 2'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n\t\tvAlign = 'middle'\n>\n\t<button \n\t\tpaddingTop = '12px'\n\tpaddingLeft = '15px'\n\tpaddingRight = '15px'\n\tpaddingBottom = '12px'\n\n\tcolor = '#FFFFFF'\n\tsize = '16px'\n\ttext ='Update Details'\n\t\tbgColor = 'theme'\n\t\tcornerRadius = '60px' \n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='50%'\n   \t>\n\t<chart \n\telementName='Chart'\n\n\ttype = 'Area'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme2'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\timportedTemplate = 'true'\n/>\n\n</column>\n</row>\n</layout>\n</zml>"
+		}
+	}
+
+
+
+
+		workflow
+		{
+		form
+		{
+			Agregar_Formatos3 as "Agregar Formatos"
+			{
+				type =  form
+				form = Labelling_formats
+
+				record event = on add or edit
+
+				field rules
+				{
+				}
+
+			}
+			AgregarProduct_Specs as "AgregarProduct Specs"
+			{
+				type =  form
+				form = Opportunity_Requirements
+
+				record event = on add or edit
+					status = inactive
+
+				field rules
+				{
+				}
+
+			}
+			Agregar_Formatos5 as "Agregar Formatos"
+			{
+				type =  form
+				form = Opportunity_Formats_Sizes
+
+				record event = on add or edit
+
+				field rules
+				{
+				}
+
+			}
+			Create_ID as "Create ID"
+			{
+				type =  form
+				form = New_Opportunity
+
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											oppRecord = New_Opportunity[ID == input.ID];
+										oppRecord.Opportunity_ID2=input.ID;
+										DisplayName = oppRecord.Opportunity_ID2.toString();
+										oppRecord.Opportunity_ID_Text="<b><span style='font-size:14px; color:#C0392B;'>" + DisplayName + "</span></b>";
+						)
+					}
+				}
+
+			}
+			Hide_ID as "Hide ID"
+			{
+				type =  form
+				form = New_Opportunity
+
+				record event = on add or edit
+
+				field rules
+				{
+					actions 
+					{
+						hide Opportunity_ID2;
+					}
+					actions 
+					{
+						disable Opportunity_ID_Text;
+					}
+				}
+
+			}
+		}
+
+
+
+
+		blueprint
+		{
+    			Secuencia_Captura as "Secuencia Captura"
+    			{
+        			type = Blueprint
+        			form = New_Opportunity
+        			start
+        			{
+            			start stage = "Main"
+            			chart data
+            			{
+                			from port : B
+                			to port   : T3
+                			position  : "-374 -115"
+                			path      : [-346.15,-78.16,-346.15,-68.16,-346.15,-27.08,-337.65900268554685,-27.08,-337.65900268554685,14,-337.65900268554685,24]
+            			}
+        			}
+        			stages
+        			{
+           			"Main"
+           			{
+               			chart data
+               			{
+                   			position : "-375.22305247085296 24"
+               			}
+           			}
+           			"New Client"
+           			{
+               			chart data
+               			{
+                   			position : "-38.764116249999915 71.88329942062514"
+               			}
+           			}
+           			"New Company Site"
+           			{
+               			chart data
+               			{
+                   			position : "556.5108991175446 158.5754457081028"
+               			}
+           			}
+           			"New Partner"
+           			{
+               			chart data
+               			{
+                   			position : "398.91761147712566 126.04217495954256"
+               			}
+           			}
+           			"New Project"
+           			{
+               			chart data
+               			{
+                   			position : "140.02533897712544 97.31845652204245"
+               			}
+           			}
+           			"New Opportunity"
+           			{
+               			chart data
+               			{
+                   			position : "-398.03683606282027 399.1546268812917"
+               			}
+           			}
+           			"New Opportunity requirements"
+           			{
+               			chart data
+               			{
+                   			position : "-396.7568360628202 511.93687438129194"
+               			}
+           			}
+           			"New Opportunity Products"
+           			{
+               			chart data
+               			{
+                   			position : "-427.8468991878202 655.9775878187918"
+               			}
+           			}
+           			"New Opportunity Formats"
+           			{
+               			chart data
+               			{
+                   			position : "-426.6507438753201 792.6650878187917"
+               			}
+           			}
+        			}
+        			transitions
+        			{
+    				Add_Client as "Add Client"
+    				{
+         				type = normal
+         				from stage = "Main"
+         				to stage = "New Client"
+         				before
+         				{
+         				}
+         				during
+         				{
+            				action = update_fields
+            				workflow status = true
+            				visible fields = [Lead_Company]
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : R1
+             				to port   : L1
+             				path      : [-300.09495290024074,49.80391489761081,-290.09495290024074,49.80391489761081,-169.42953457512033,49.80391489761081,-169.42953457512033,97.68721431823595,-48.764116249999915,97.68721431823595,-38.764116249999915,97.68721431823595]
+        				}
+  				}
+    				Home as "Home"
+    				{
+         				type = normal
+         				from stage = "New Client"
+         				to stage = "Main"
+         				before
+         				{
+         				}
+         				during
+         				{
+            				action = update_fields
+            				workflow status = true
+            				visible fields = [Lead_Company]
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : T3
+             				to port   : T4
+             				path      : [17.598418337552296,71.88329942062514,17.598418337552296,61.883299420625136,17.598418337552296,14,-155.3529505431129,14,-328.3043194237781,14,-328.3043194237781,24]
+        				}
+  				}
+    				Add_Project as "Add Project"
+    				{
+         				type = normal
+         				from stage = "Main"
+         				to stage = "New Project"
+         				before
+         				{
+         				}
+         				during
+         				{
+            				action = open_form
+            				form = New_Project_Form
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : B5
+             				to port   : B3
+             				path      : [-318.9496361620094,75.60782979522162,-318.9496361620094,85.60782979522162,-318.9496361620094,158.92628631726407,-59.44687785017956,158.92628631726407,200.0558804616503,158.92628631726407,200.0558804616503,148.92628631726407]
+        				}
+  				}
+    				Home1 as "Home"
+    				{
+         				type = normal
+         				from stage = "New Project"
+         				to stage = "Main"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : T3
+             				to port   : T5
+             				path      : [200.0558804616503,97.31845652204245,200.0558804616503,87.31845652204245,200.0558804616503,-38.288446875000005,-318.9496361620094,-38.288446875000005,-318.9496361620094,14,-318.9496361620094,24]
+        				}
+  				}
+    				Add_partner as "Add partner"
+    				{
+         				type = normal
+         				from stage = "Main"
+         				to stage = "New Partner"
+         				before
+         				{
+         				}
+         				during
+         				{
+            				action = update_fields
+            				workflow status = true
+            				visible fields = [Partner_companies]
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : B4
+             				to port   : B2
+             				path      : [-328.3043194237781,75.60782979522162,-328.3043194237781,85.60782979522162,-328.3043194237781,187.65000475476418,57.24666152314299,187.65000475476418,442.7976424700641,187.65000475476418,442.7976424700641,177.65000475476418]
+        				}
+  				}
+    				Home2 as "Home"
+    				{
+         				type = normal
+         				from stage = "New Partner"
+         				to stage = "Main"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : T5
+             				to port   : T2
+             				path      : [494.3676889594718,126.04217495954256,494.3676889594718,116.04217495954256,494.3676889594718,-80.40573843749999,-347.01368594731554,-80.40573843749999,-347.01368594731554,14,-347.01368594731554,24]
+        				}
+  				}
+    				Home3 as "Home"
+    				{
+         				type = normal
+         				from stage = "New Company Site"
+         				to stage = "Main"
+         				before
+         				{
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : T3
+             				to port   : R1
+             				path      : [637.3909202773624,158.5754457081028,637.3909202773624,148.5754457081028,637.3909202773624,-122.52303,-290.09495290024074,-122.52303,-290.09495290024074,49.80391489761081,-300.09495290024074,49.80391489761081]
+        				}
+  				}
+    				Add_Company_site as "Add Company site"
+    				{
+         				type = normal
+         				from stage = "Main"
+         				to stage = "New Company Site"
+         				before
+         				{
+         				}
+         				during
+         				{
+            				action = update_fields
+            				workflow status = true
+            				visible fields = [Client_Site]
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : B3
+             				to port   : B3
+             				path      : [-337.65900268554685,75.60782979522162,-337.65900268554685,85.60782979522162,-337.65900268554685,220.1832755033244,149.86595879590777,220.1832755033244,637.3909202773624,220.1832755033244,637.3909202773624,210.1832755033244]
+        				}
+  				}
+    				Add_New_opportunity as "Add New opportunity"
+    				{
+         				type = normal
+         				from stage = "Main"
+         				to stage = "New Opportunity"
+         				before
+         				{
+         				}
+         				during
+         				{
+            				action = update_fields
+            				workflow status = true
+            				visible fields = [Opportunity_ID_Text,Lead_Company]
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : B2
+             				to port   : T3
+             				path      : [-347.01368594731554,75.60782979522162,-347.01368594731554,85.60782979522162,-347.01368594731554,367.56909000000013,-321.73130831120557,367.56909000000013,-321.73130831120557,389.1546268812917,-321.73130831120557,399.1546268812917]
+        				}
+  				}
+    				Next_Add_requirements as "Next Add requirements"
+    				{
+         				type = normal
+         				from stage = "New Opportunity"
+         				to stage = "New Opportunity requirements"
+         				before
+         				{
+         				}
+         				during
+         				{
+            				action = open_form
+            				form = Opportunity_Requirements
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : B3
+             				to port   : T3
+             				path      : [-321.73130831120557,450.7624566765133,-321.73130831120557,460.7624566765133,-321.73130831120557,481.3496655289026,-320.4513083112055,481.3496655289026,-320.4513083112055,501.93687438129194,-320.4513083112055,511.93687438129194]
+        				}
+  				}
+    				Next_Add_Products as "Next Add Products"
+    				{
+         				type = normal
+         				from stage = "New Opportunity requirements"
+         				to stage = "New Opportunity Products"
+         				before
+         				{
+         				}
+         				during
+         				{
+            				action = open_form
+            				form = Opportunity_Products
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : B3
+             				to port   : T3
+             				path      : [-320.4513083112055,580.443394972412,-320.4513083112055,590.443394972412,-320.4513083112055,618.2104913956018,-322.5333910895258,618.2104913956018,-322.5333910895258,645.9775878187918,-322.5333910895258,655.9775878187918]
+        				}
+  				}
+    				Next_Add_Formats as "Next Add Formats"
+    				{
+         				type = normal
+         				from stage = "New Opportunity Products"
+         				to stage = "New Opportunity Formats"
+         				before
+         				{
+         				}
+         				during
+         				{
+            				action = open_form
+            				form = Opportunity_Formats_Sizes
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : B3
+             				to port   : T3
+             				path      : [-322.5333910895258,707.5854176140134,-322.5333910895258,717.5854176140134,-322.5333910895258,750.1252527164025,-323.6052335187249,750.1252527164025,-323.6052335187249,782.6650878187917,-323.6052335187249,792.6650878187917]
+        				}
+  				}
+    				Save as "Save"
+    				{
+         				type = normal
+         				from stage = "New Opportunity Formats"
+         				to stage = "Main"
+         				before
+         				{
+         				}
+         				during
+         				{
+            				action = update_fields
+            				workflow status = true
+         				}
+         				after
+         				{
+         				}
+         				chart data
+         				{
+             				from port : B3
+             				to port   : L1
+             				path      : [-323.6052335187249,844.2729176140133,-323.6052335187249,854.2729176140133,-323.6052335187249,854.2729176140133,-452,854.2729176140133,-452,49.80391489761081,-385.22305247085296,49.80391489761081,-375.22305247085296,49.80391489761081]
+        				}
+  				}
+        			}
+    			}
+		}
+
+
+	}
+	share_settings
+	{
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+			}
+			"Developer"
+			{
+				name = "Developer"
+				type = Developer
+				permissions = {Chat:false, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Developer Profile\n"
+			}
+			"Edit"
+			{
+				name = "Edit"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components, except settings\n"
+				ModulePermissions
+				{
+					TPL_No_Carbonatadas
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							TPL_No_Carbonatadas_Report={"View","Edit","Delete"}
+						}
+					}
+					TPL_Solidos_Farma
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							TPL_Solidos_Farma_Report={"View","Edit","Delete"}
+						}
+					}
+					New_Opportunity
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Pipeline_tracking_39684ba17bf5800aace7df_Report={"View","Edit","Delete"}
+						}
+					}
+					TPL_Solids_Food
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							TPL_Solidos_Alim_Report={"View","Edit","Delete"}
+						}
+					}
+					TPL_Spirits_Liquors
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							TPL_Alcoholicas_Report={"View","Edit","Delete"}
+						}
+					}
+					Lead_Company
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Sales_Leads_Co={"View","Edit","Delete"}
+						}
+					}
+					TPL_Semiliquids_Food
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Productos_Semiliquidos_Report={"View","Edit","Delete"}
+						}
+					}
+					Opportunity_Products
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Opportunity_URS_Report={"View","Edit","Delete"}
+						}
+					}
+					TPL_Semiliquid_Products1
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Copy_of_Carbonated_beverages_Report={"View","Edit","Delete"}
+						}
+					}
+					Client_Sites
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Sitios_Report={"View","Edit","Delete"}
+						}
+					}
+					Add_Partner_companies
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Partner_companies_Report={"View","Edit","Delete"}
+						}
+					}
+					TPL_Semiliq_NoAlim
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							TPL_Semiliq_NoAlim_Report={"View","Edit","Delete"}
+						}
+					}
+					New_Project_Form
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Projects_Report={"View","Edit","Delete"}
+						}
+					}
+					TPL_Carbonatadas
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							TPL_Carbonatadas_Report={"View","Edit","Delete"}
+						}
+					}
+					Settings
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Settings_Report={"View","Edit","Delete"}
+						}
+					}
+					Opportunity_Requirements
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							URS_Report={"View","Edit","Delete"}
+						}
+					}
+					Formulario_Zoho_forms_Iframe
+					{
+						enabled = tab
+					}
+					Calendario
+					{
+						enabled = tab
+					}
+				}
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Setup Access"
+			{
+				name = "Setup Access"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Setup Access Profile\n"
+				ModulePermissions
+				{
+					TPL_No_Carbonatadas
+					{
+						allFieldsVisible= true 
+					}
+					TPL_Solidos_Farma
+					{
+						allFieldsVisible= true 
+					}
+					New_Opportunity
+					{
+						enabled= Create,Viewall,Modifyall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Pipeline_tracking_39684ba17bf5800aace7df_Report={"View","Edit","Delete"}
+						}
+					}
+					TPL_Solids_Food
+					{
+						allFieldsVisible= true 
+					}
+					TPL_Spirits_Liquors
+					{
+						allFieldsVisible= true 
+					}
+					Lead_Company
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm,create_new_report 
+						ReportPermissions
+						{
+							Sales_Leads_Co={"View","Edit","Delete"}
+						}
+						FieldPermissions
+						{
+							ZC_Record_Type{visibility:false}
+							Email_Id{visibility:true,readonly:false}
+							Company_name{visibility:true,readonly:false}
+							Website{visibility:true,readonly:false}
+							Job_Title{visibility:true,readonly:false}
+							Section{visibility:false,readonly:false}
+							Name{visibility:true,readonly:false}
+							Sitios{visibility:true,readonly:false}
+							Industry{visibility:true,readonly:false}
+							Contacts{visibility:false,readonly:false}
+							Mobile_Number{visibility:true,readonly:false}
+							Client_ID{visibility:false,readonly:false}
+							Opportunity_Role{visibility:true,readonly:false}
+							Employee_Count{visibility:true,readonly:false}
+						}
+					}
+					TPL_Semiliquids_Food
+					{
+						allFieldsVisible= true 
+					}
+					Opportunity_Products
+					{
+						enabled= Create,Viewall,Modifyall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Opportunity_URS_Report={"View","Edit","Delete"}
+						}
+					}
+					TPL_Semiliquid_Products1
+					{
+						allFieldsVisible= true 
+					}
+					Client_Sites
+					{
+						allFieldsVisible= true 
+					}
+					Add_Partner_companies
+					{
+						enabled= Create,Viewall,Modifyall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Partner_companies_Report={"View","Edit","Delete"}
+						}
+					}
+					TPL_Semiliq_NoAlim
+					{
+						allFieldsVisible= true 
+					}
+					New_Project_Form
+					{
+						allFieldsVisible= true 
+					}
+					TPL_Carbonatadas
+					{
+						allFieldsVisible= true 
+					}
+					Settings
+					{
+						allFieldsVisible= true 
+					}
+					Opportunity_Requirements
+					{
+						enabled= Create,Viewall,Modifyall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							URS_Report={"View","Edit","Delete"}
+						}
+					}
+					Formulario_Zoho_forms_Iframe
+					{
+						enabled = tab
+					}
+					Calendario
+					{
+						enabled = tab
+					}
+				}
+			}
+			"Customer"
+			{
+				name = "Customer"
+				type = Customer_Portal
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This is the default profile having only add and view permission.\n"
+				ModulePermissions
+				{
+					Opportunity_Products
+					{
+						enabled= Create,Viewall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Opportunity_URS_Report={"View"}
+						}
+					}
+					Lead_Company
+					{
+						enabled= Create,Viewall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Sales_Leads_Co={"View"}
+						}
+					}
+					Add_Partner_companies
+					{
+						enabled= Create,Viewall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Partner_companies_Report={"View"}
+						}
+					}
+					New_Opportunity
+					{
+						enabled= Create,Viewall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Pipeline_tracking_39684ba17bf5800aace7df_Report={"View"}
+						}
+					}
+					Opportunity_Requirements
+					{
+						enabled= Viewall 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							URS_Report={"View"}
+						}
+					}
+				}
+			}
+			"Partner Access"
+			{
+				name = "Partner Access"
+				type = Customer_Portal
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Partner Access Profile\n"
+				ModulePermissions
+				{
+					Opportunity_Products
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Opportunity_URS_Report={"View","Edit"}
+						}
+					}
+					Lead_Company
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Sales_Leads_Co={"View","Edit"}
+						}
+					}
+					Add_Partner_companies
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Partner_companies_Report={"View"}
+						}
+					}
+					New_Opportunity
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Pipeline_tracking_39684ba17bf5800aace7df_Report={"View","Edit"}
+						}
+					}
+					Opportunity_Requirements
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							URS_Report={"View"}
+						}
+					}
+				}
+			}
+			roles
+			{
+				"CEO"
+				{
+					description = "User belonging to this role can access data of all other users."
+					"Opportunity Owner"
+					{
+						description = ""
+						share data with peers = true
+						"Partner"
+						{
+							description = ""
+						}
+					}
+					"Administrator"
+					{
+						description = ""
+					}
+				}
+			}
+	}
+
+
+	web
+	{
+		forms
+		{
+			form Lead_Company
+			{
+				label placement = right
+			}
+			form Client_Sites
+			{
+				label placement = left
+			}
+			form Add_Partner_companies
+			{
+				label placement = left
+			}
+			form New_Project_Form
+			{
+				label placement = left
+			}
+			form New_Opportunity
+			{
+				label placement = right
+			}
+			form Opportunity_Formats_Sizes
+			{
+				label placement = left
+			}
+			form Opportunity_Products
+			{
+				label placement = left
+			}
+			form Opportunity_Requirements
+			{
+				label placement = right
+			}
+			form Settings
+			{
+				label placement = left
+			}
+			form TPL_Carbonatadas
+			{
+				label placement = left
+			}
+			form TPL_Closure_Caps
+			{
+				label placement = left
+			}
+			form TPL_Empaque_Unitario
+			{
+				label placement = left
+			}
+			form TPL_Empaque_terciario
+			{
+				label placement = left
+			}
+			form TPL_No_Carbonatadas
+			{
+				label placement = left
+			}
+			form Labelling_formats
+			{
+				label placement = left
+			}
+			form TPL_Liquidos_Farma_import
+			{
+				label placement = left
+			}
+			form TPL_Non_Beverage_liquids
+			{
+				label placement = left
+			}
+			form Pallet_Logistics_import
+			{
+				label placement = left
+			}
+			form TPL_Secondary_packaging
+			{
+				label placement = left
+			}
+			form TPL_Semiliq_NoAlim
+			{
+				label placement = left
+			}
+			form TPL_Semiliquid_Products1
+			{
+				label placement = left
+			}
+			form TPL_Semiliquids_Food
+			{
+				label placement = left
+			}
+			form TPL_Solidos_Farma
+			{
+				label placement = left
+			}
+			form TPL_Solids_Food
+			{
+				label placement = left
+			}
+			form TPL_Spirits_Liquors
+			{
+				label placement = left
+			}
+		}
+		reports
+		{
+			report Opportunity_Comments_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Opportunity
+								Comment as "Comentario"
+								Commented_By as "Autor"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit
+								Duplicate
+								Delete
+								Add
+								Print
+								Import
+								Export
+							)
+						record
+						(
+							Edit
+							Duplicate
+							Print
+							Delete
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record
+    					)
+						on right click
+						(
+							Edit
+							Delete
+							Duplicate
+							Print
+							View Record
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+			     			title = "Comentario"
+							fields
+							(
+								Opportunity
+								Commented_By as "Autor"
+								Comment as "Comentario"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit
+								Duplicate
+								Print
+								Delete
+							)
+						)
+				)
+			}
+			report Sales_Leads_Co
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+							layout type = 4
+		     				title = "Overview"
+							fields
+							(
+								Name
+								Job_Title as "Job Title"
+								Email_Id as "Email Id"
+								Mobile_Number as "Mobile Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								Name
+								Job_Title as "Job Title"
+								Mobile_Number as "Mobile Number"
+								Email_Id as "Email Id"
+							)
+						)
+						datablock2
+						(
+		     				title = "Company Information"
+							fields
+							(
+								Website
+								Employee_Count as "Employee Count"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report Partner_companies_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Machinery_range as "Machinery range"
+								Partner_Company_name as "Partner Company name"
+								Address
+								Email
+								Phone
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Machinery_range as "Machinery range"
+								Partner_Company_name as "Partner Company name"
+								Address
+								Email
+								Phone
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report Pipeline_tracking_39684ba17bf5800aace7df_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Opportunity_ID_Text
+								Opportunity_reference as "Opportunity Reference"
+								Lead_Company.Company_name as "Company name"
+								Partner_companies as "Partner companies"
+								Client_Site.site_name as "Site Name"
+								Deal_Stage as "Deal Stage"
+								Status as "Status | Priority"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Partner_companies as "Partner companies"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report Opportunity_URS_Report
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = Custom
+		 				selectedlayout = "Custom Layout 1"
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report URS_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Products_month as "Products/month"
+								Hours_per_shift as "Hours per shift"
+								Shifts_day as "Shifts/day"
+								Days_per_Month as "Days per Month"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Products_month as "Products/month"
+								Hours_per_shift as "Hours per shift"
+								Shifts_day as "Shifts/day"
+								Days_per_Month as "Days per Month"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report Productos_Semiliquidos_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Density
+								fat_content as "Fat Content"
+								sugar_content as "Sugar Content"
+								texture as "Texture"
+								Viscosity as "Viscosity (CPs)"
+								BRIX
+								Temperau as "Temperature ºC"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Density
+								fat_content as "Fat Content"
+								sugar_content as "Sugar Content"
+								texture as "Texture"
+								Viscosity as "Viscosity (CPs)"
+								BRIX
+								Temperau as "Temperature ºC"
+								Product_Type as "Product Type"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Copy_of_Carbonated_beverages_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Sensibilidad_al_ox_geno as "Sensibilidad al oxígeno"
+								Tama_o_m_ximo_de_part_cula as "Max. particle size"
+								Temperatura_del_producto_al_llenar as "Temperatura del producto al llenar"
+								pH_m_nimo as "pH mínimo"
+								Presencia_de_pulpa_o_part_culas as "Pulp or suspended solids"
+								Semiliquid_Type as "Semiliquid Type"
+								CPS
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Sensibilidad_al_ox_geno as "Sensibilidad al oxígeno"
+								Tama_o_m_ximo_de_part_cula as "Max. particle size"
+								Temperatura_del_producto_al_llenar as "Temperatura del producto al llenar"
+								pH_m_nimo as "pH mínimo"
+								Presencia_de_pulpa_o_part_culas as "Pulp or suspended solids"
+								Contenido_de_alcohol as "Alcohol Vol"
+								Producto_corrosivo as "Producto corrosivo"
+								Riesgo_microbiol_gico as "Riesgo microbiológico"
+								Densidad
+								pH_m_ximo as "pH max"
+								Sugar_contents as "Sugar contents"
+								Temperatura_m_xima_permitida as "Temperatura máxima permitida"
+								Semiliquid_Type as "Semiliquid Type"
+								CPS
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Projects_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Project_Description as "Project Description"
+								Client_Site as "Client Site"
+								Lead_Company as "Add Client Company"
+								File_upload as "File upload"
+								Project_ID1 as "Project_ID"
+								Reference_Description as "Reference/Description"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Project_Description as "Project Description"
+								Client_Site as "Client Site"
+								Lead_Company as "Add Client Company"
+								File_upload as "File upload"
+								Project_ID as "Project_reference"
+								Project_ID1 as "Project_ID"
+								Reference_Description as "Reference/Description"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Sitios_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								site_name as "Site Name"
+								address as "Address"
+								Site_ID
+								Contact
+								Lookup_Client_Company as "Lookup Client Company"
+								File_upload as "File upload"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								site_name as "Site Name"
+								address as "Address"
+								Site_ID
+								Contact
+								Lookup_Client_Company as "Lookup Client Company"
+								File_upload as "File upload"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report TPL_Alcoholicas_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Alcohol_ABV_pct
+								CO2_Volumes
+								Product_Temp_Fill_C
+								Brix_deg
+								pH
+								Density_kg_L
+								Viscosity_cP
+								Flash_Point_C
+								Hazardous_Area_Zone
+								Dissolved_Oxygen_Max_ppb
+								Total_Package_Oxygen_Max_ppb
+								Inert_Gas_Type
+								Pre_Evacuation_Required
+								Pasteurization_Required
+								Closure_Application
+								Tax_Stamp_Required
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Alcohol_ABV_pct
+								CO2_Volumes
+								Product_Temp_Fill_C
+								Brix_deg
+								pH
+								Density_kg_L
+								Viscosity_cP
+								Flash_Point_C
+								Hazardous_Area_Zone
+								Dissolved_Oxygen_Max_ppb
+								Total_Package_Oxygen_Max_ppb
+								Inert_Gas_Type
+								Pre_Evacuation_Required
+								Pasteurization_Required
+								Closure_Application
+								Tax_Stamp_Required
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report TPL_Solidos_Farma_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Solid_Pharma_Product_ID
+								Unit_Weight_mg
+								Unit_Weight_Tolerance_pct
+								Length_mm
+								Width_mm
+								Thickness_mm
+								Shape
+								Tablet_Hardness_N
+								Hygroscopic
+								Dustiness_Level
+								Potent_Compound
+								OEB_Level
+								OEL_ug_m3
+								Containment_Required
+								Batch_Size_Min_kg
+								Batch_Size_Max_kg
+								Required_Throughput_units_h
+								GMP_Required
+								Serialization_Required
+								Vision_Inspection
+								Metal_Detection_Required
+								Room_RH_Max_pct
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Solid_Pharma_Product_ID
+								Unit_Weight_mg
+								Unit_Weight_Tolerance_pct
+								Length_mm
+								Width_mm
+								Thickness_mm
+								Shape
+								Tablet_Hardness_N
+								Hygroscopic
+								Dustiness_Level
+								Potent_Compound
+								OEB_Level
+								OEL_ug_m3
+								Containment_Required
+								Batch_Size_Min_kg
+								Batch_Size_Max_kg
+								Required_Throughput_units_h
+								GMP_Required
+								Serialization_Required
+								Vision_Inspection
+								Metal_Detection_Required
+								Room_RH_Max_pct
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report TPL_Solidos_Alim_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Piece_Weight_Min_g
+								Piece_Weight_Max_g
+								Bulk_Density_kg_m3
+								Flowability
+								Fragility_Level
+								Stickiness_Level
+								Dustiness_Level
+								Oil_Content_Level
+								Moisture_pct
+								Product_Temp_C
+								Target_Pack_Weight_g
+								Allowed_Giveaway_pct
+								Package_Type
+								MAP_Required
+								MAP_Gas_Composition
+								Metal_Detection_Required
+								Checkweigher_Required
+								Allergens
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Piece_Weight_Min_g
+								Piece_Weight_Max_g
+								Bulk_Density_kg_m3
+								Flowability
+								Fragility_Level
+								Stickiness_Level
+								Dustiness_Level
+								Oil_Content_Level
+								Moisture_pct
+								Product_Temp_C
+								Target_Pack_Weight_g
+								Allowed_Giveaway_pct
+								Package_Type
+								MAP_Required
+								MAP_Gas_Composition
+								Metal_Detection_Required
+								Checkweigher_Required
+								Allergens
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report TPL_No_Carbonatadas_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Requirement_ID
+								Fill_Process
+								Product_Temp_Fill_C
+								Brix_deg
+								pH
+								Density_kg_L
+								Viscosity_Min_cP
+								Viscosity_Max_cP
+								Pulp_Content_pct
+								Particle_Size_Max_mm
+								Fiber_Length_Max_mm
+								Foaming_Level
+								Shear_Sensitive
+								Aseptic_Required
+								UHT_Upstream
+								Nitrogen_Dosing
+								Preservatives_Used
+								Allergens
+								Product_Contact_Material
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Requirement_ID
+								Fill_Process
+								Product_Temp_Fill_C
+								Brix_deg
+								pH
+								Density_kg_L
+								Viscosity_Min_cP
+								Viscosity_Max_cP
+								Pulp_Content_pct
+								Particle_Size_Max_mm
+								Fiber_Length_Max_mm
+								Foaming_Level
+								Shear_Sensitive
+								Aseptic_Required
+								UHT_Upstream
+								Nitrogen_Dosing
+								Preservatives_Used
+								Allergens
+								Product_Contact_Material
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report TPL_Carbonatadas_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								CO2_Volumes_Min
+								CO2_Volumes_Max
+								Product_Temp_Fill_C
+								Filler_Bowl_Pressure_bar
+								Brix_deg
+								pH
+								Density_kg_L
+								Viscosity_cP
+								Foaming_Level
+								Dissolved_Oxygen_Max_ppb
+								Product_Pressure_At_Filler_bar
+								Pasteurization_Required
+								Pasteurization_Type
+								Target_PU
+								Counterpressure_Filling
+								Low_Foam_Valve_Required
+								Product_Contact_Material
+								Carbonation_System_In_Scope
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								CO2_Volumes_Min
+								CO2_Volumes_Max
+								Product_Temp_Fill_C
+								Filler_Bowl_Pressure_bar
+								Brix_deg
+								pH
+								Density_kg_L
+								Viscosity_cP
+								Foaming_Level
+								Dissolved_Oxygen_Max_ppb
+								Product_Pressure_At_Filler_bar
+								Pasteurization_Required
+								Pasteurization_Type
+								Target_PU
+								Counterpressure_Filling
+								Low_Foam_Valve_Required
+								Product_Contact_Material
+								Carbonation_System_In_Scope
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report TPL_Semiliq_NoAlim_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Viscosity_Min_cP
+								Viscosity_Max_cP
+								Viscosity_Test_Temp_C
+								Viscosity_Method
+								Density_kg_L
+								Product_Temp_Fill_C
+								Rheology_Type
+								Shear_Sensitive
+								Stringiness_Level
+								Foaming_Level
+								Entrained_Air
+								Particle_Content_pct
+								Particle_Size_Max_mm
+								Corrosive_Product
+								Solvent_Based
+								Flammable_Product
+								Chemical_Compatibility
+								Seal_Material_Required
+								Hopper_Agitation
+								Heated_Hopper
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Viscosity_Min_cP
+								Viscosity_Max_cP
+								Viscosity_Test_Temp_C
+								Viscosity_Method
+								Density_kg_L
+								Product_Temp_Fill_C
+								Rheology_Type
+								Shear_Sensitive
+								Stringiness_Level
+								Foaming_Level
+								Entrained_Air
+								Particle_Content_pct
+								Particle_Size_Max_mm
+								Corrosive_Product
+								Solvent_Based
+								Flammable_Product
+								Chemical_Compatibility
+								Seal_Material_Required
+								Hopper_Agitation
+								Heated_Hopper
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report Settings_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								theme_preference as "Theme Preference"
+								language_preference as "Language Preference"
+								enable_email_tracking as "Enable Email Tracking"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								theme_preference as "Theme Preference"
+								language_preference as "Language Preference"
+								enable_email_tracking as "Enable Email Tracking"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Copy_of_Unitary_packaging_Formats_Report1
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Auto_Number as "Auto Number"
+								Unitary_Packaging as "Labelling type"
+								Material_Type as "Material / Type"
+								Dimensions1
+								Dimensions2
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Auto_Number as "Auto Number"
+								Unitary_Packaging as "Labelling type"
+								Material_Type as "Material / Type"
+								Dimensions1
+								Dimensions2
+								Array as "Placement type:"
+								Image
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report TPL_Non_Beverage_liquids_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Auto_Number as "Auto Number"
+								Non_Beverage_Liquids as "Non Beverage Liquids"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Auto_Number as "Auto Number"
+								Non_Beverage_Liquids as "Non Beverage Liquids"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report TPL_Liquidos_Farma_import_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Product_ID as "Farma Liquid products"
+								Viscosity_cP
+								Density_kg_L
+								pH
+								Osmolarity_mOsm_L
+								Product_Temp_Fill_C
+								Fill_Volume_Min_mL
+								Fill_Volume_Max_mL
+								Sterility_Required
+								Aseptic_Fill_Required
+								Preservative_System
+								Light_Sensitive
+								Contains_Particulates
+								Particle_Size_Max_mm
+								Foaming_Level
+								Container_Material
+								Closure_Type
+								Tamper_Evident_Required
+								Child_Resistant_Closure
+								Inert_Gas_Required
+								Inert_Gas_Type
+								Cold_Chain_Required
+								Shelf_Life_Months
+								Regulatory_Classification
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Product_ID as "Farma Liquid products"
+								Viscosity_cP
+								Density_kg_L
+								pH
+								Osmolarity_mOsm_L
+								Product_Temp_Fill_C
+								Fill_Volume_Min_mL
+								Fill_Volume_Max_mL
+								Sterility_Required
+								Aseptic_Fill_Required
+								Preservative_System
+								Light_Sensitive
+								Contains_Particulates
+								Particle_Size_Max_mm
+								Foaming_Level
+								Container_Material
+								Closure_Type
+								Tamper_Evident_Required
+								Child_Resistant_Closure
+								Inert_Gas_Required
+								Inert_Gas_Type
+								Cold_Chain_Required
+								Shelf_Life_Months
+								Regulatory_Classification
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report Pallet_Logistics_import_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Entry_Type
+								Units_Per_Pallet
+								Layers_Per_Pallet
+								Units_Per_Layer
+								Max_Stack_Height_mm
+								Max_Pallet_Weight_kg
+								Stretch_Wrap_Required
+								Corner_Boards_Required
+								Slip_Sheet_Required
+								Double_Stacking_Allowed
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Entry_Type
+								Units_Per_Pallet
+								Layers_Per_Pallet
+								Units_Per_Layer
+								Max_Stack_Height_mm
+								Max_Pallet_Weight_kg
+								Stretch_Wrap_Required
+								Corner_Boards_Required
+								Slip_Sheet_Required
+								Double_Stacking_Allowed
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report TPL_Empaque_Secundario_import_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Units_Per_Case as "Units_Per_Case/ Pack"
+								Case_pack_Length_mm as "Length (mm)"
+								Case_Width_mm as "Width (mm)"
+								Case_Height_mm as "Height (mm)"
+								Case_Gross_Weight_kg as "Gross weight (kg)"
+								Board_Grade
+								Shrink_Film_Gauge_micron
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Add 
+								Print 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Print   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Units_Per_Case as "Units_Per_Case/ Pack"
+								Case_pack_Length_mm as "Length (mm)"
+								Case_Width_mm as "Width (mm)"
+								Case_Height_mm as "Height (mm)"
+								Case_Gross_Weight_kg as "Gross weight (kg)"
+								Board_Grade
+								Shrink_Film_Gauge_micron
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Print 
+								Delete 
+							)
+						)
+				)
+			}
+			report TPL_Secondary_packaging_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Named
+								Secondary_packaging_type as "Primary material"
+								Packaging_Type as "Packaging type"
+								a_Lenght_mm as "a- Lenght (mm)"
+								b_Width_mm as "b - Width (mm)"
+								c_Heigth_mm as "c - Heigth (mm)"
+								Pcs_per_pack as "Pcs per pack"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Named
+								Secondary_packaging_type as "Primary material"
+								Packaging_Type as "Packaging type"
+								a_Lenght_mm as "a- Lenght (mm)"
+								b_Width_mm as "b - Width (mm)"
+								c_Heigth_mm as "c - Heigth (mm)"
+								Components
+								Files_upload as "Files upload"
+								Pcs_per_pack as "Pcs per pack"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Copy_of_TPL_Secondary_packaging_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Named
+								Packaging_Type as "Unitary Packaging"
+								Secondary_packaging_type as "Primary material"
+								L_Lenght_mm as "L- Lenght (mm)"
+								b_Width_mm as "W - Width (mm)"
+								D_Diameter_mm as "D - Diameter (mm)"
+								Volume_mL as "Volume (mL)"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Named
+								Packaging_Type as "Unitary Packaging"
+								Secondary_packaging_type as "Primary material"
+								L_Lenght_mm as "L- Lenght (mm)"
+								b_Width_mm as "W - Width (mm)"
+								H_Heigth_mm as "H - Heigth (mm)"
+								Files_upload as "Files upload"
+								D_Diameter_mm as "D - Diameter (mm)"
+								Volume_mL as "Volume (mL)"
+								Weight_grs as "Weight (grs)"
+								Count_field as "Count (pcs)"
+								Other_Features as "Other Features "
+								Auto_Number as "Auto Number"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report Copy_of_TPL_Empaque_Unitario_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Auto_Number as "Auto Number"
+								Named
+								Packaging_Type as "Closure type"
+								Weight_grs as "Weight (grs)"
+								Count_field as "Count (pcs)"
+								Secondary_packaging_type as "Primary material"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Auto_Number as "Auto Number"
+								Named
+								Packaging_Type as "Closure type"
+								Weight_grs as "Weight (grs)"
+								Count_field as "Count (pcs)"
+								Secondary_packaging_type as "Primary material"
+								Other_Features as "Other Features "
+								D_Diameter_mm as "D - Diameter (mm)"
+								H_Heigth_mm as "H - Heigth (mm)"
+								Files_upload as "Files upload"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+		}
+		menu
+		{
+			unused
+			{
+				page Formulario_Zoho_forms_Iframe
+				{
+					icon = "tech-desktop"
+				}
+				page Main_Page
+				{
+					icon = "design-webpage"
+				}
+			}
+			space Inicio
+			{
+				displayname = "Inicio"
+				icon = "users-2-home"
+
+					page Opportunity_Hub_Home
+					{
+						icon = "users-2-home"
+					}
+					designcomponent designcomponent14
+					{
+						type = separator
+						separator = "blank"
+					}
+				section Comentarios
+				{
+					displayname = "Comentarios"
+					icon = "design-bullet-list-69"
+					report Opportunity_Comments_Report
+					{
+						icon = "design-bullet-list-69"
+					}
+					form  Opportunity_Comments
+					{
+						icon = "ui-1-check-simple"
+					}
+				}
+			}
+			space Workspace
+			{
+				displayname = "Workspace"
+				icon = "design-web-design"
+
+					form  New_Opportunity
+					{
+						icon = "files-folder-money"
+					}
+					designcomponent designcomponent12
+					{
+						type = separator
+						separator = "blank"
+					}
+				section Opportunity_Tracker1
+				{
+					displayname = "Opportunity Tracker"
+					icon = "media-1-button-next"
+					designcomponent designcomponent13
+					{
+						type = separator
+						separator = "blank"
+					}
+					report Pipeline_tracking_39684ba17bf5800aace7df_Report
+					{
+						icon = "ui-2-filter"
+					}
+				}
+					designcomponent designcomponent6
+					{
+						type = separator
+						separator = "blank"
+					}
+					designcomponent designcomponent1
+					{
+						type = separator
+						separator = "blank"
+					}
+				section Approvals
+				{
+					displayname = "Approvals"
+					icon = "ui-2-hourglass"
+					systemcomponent
+					{
+						type = approval
+						approval status = pending
+						displayname = "Pending Tasks"
+						icon = "ui-2-hourglass"
+					}
+					systemcomponent
+					{
+						type = approval
+						approval status = completed
+						displayname = "Completed Tasks"
+						icon = "design-todo"
+					}
+				}
+				section Calendario
+				{
+					displayname = "Calendario"
+					icon = "tech-desktop"
+					page Calendario
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section TPL_Empaque_Secundario_import
+				{
+					displayname = "TPL_Empaque_Secundario_import"
+					icon = "tech-desktop"
+					form  TPL_Empaque_terciario
+					{
+						icon = "tech-desktop"
+					}
+					report TPL_Empaque_Secundario_import_Report
+					{
+						icon = "business-laptop-71"
+					}
+				}
+				section Opportunity_Formats_Sizes
+				{
+					displayname = "Opportunity Formats & Sizes"
+					icon = "tech-ram"
+					form  Opportunity_Formats_Sizes
+					{
+						icon = "tech-ram"
+					}
+				}
+				section TPL_Secondary_packaging
+				{
+					displayname = "TPL_Secondary packaging"
+					icon = "shopping-gift"
+					form  TPL_Secondary_packaging
+					{
+						icon = "shopping-gift"
+					}
+					report TPL_Secondary_packaging_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Copy_of_TPL_Secondary_packaging
+				{
+					displayname = "Copy of TPL_Secondary packaging"
+					icon = "design-paper-design"
+					form  TPL_Empaque_Unitario
+					{
+						icon = "tech-desktop"
+					}
+					report Copy_of_TPL_Secondary_packaging_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Copy_of_TPL_Empaque_Unitario
+				{
+					displayname = "Copy of TPL_Empaque Unitario"
+					icon = "tech-print-round"
+					form  TPL_Closure_Caps
+					{
+						icon = "tech-desktop"
+					}
+					report Copy_of_TPL_Empaque_Unitario_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+			}
+			space Views_and_Reports
+			{
+				displayname = "Views and Reports"
+				icon = "objects-spaceship"
+
+				section Client_companies
+				{
+					displayname = "Client companies"
+					icon = "business-building"
+					report Sales_Leads_Co
+					{
+						icon = "users-2-contacts-44"
+					}
+					form  Lead_Company
+					{
+						icon = "users-add-29"
+					}
+				}
+				section TPL_Semiliq_NoAlim
+				{
+					displayname = "TPL_Semiliq_NoAlim"
+					icon = "tech-desktop"
+					report TPL_Semiliq_NoAlim_Report
+					{
+						icon = "tech-desktop"
+					}
+					report TPL_Solidos_Farma_Report
+					{
+						icon = "business-laptop-71"
+					}
+					report TPL_Alcoholicas_Report
+					{
+						icon = "tech-desktop"
+					}
+					report TPL_Solidos_Alim_Report
+					{
+						icon = "tech-desktop"
+					}
+					report TPL_Carbonatadas_Report
+					{
+						icon = "tech-desktop"
+					}
+					report TPL_Non_Beverage_liquids_Report
+					{
+						icon = "tech-desktop"
+					}
+					report URS_Report
+					{
+						icon = "business-laptop-71"
+					}
+					report TPL_Liquidos_Farma_import_Report
+					{
+						icon = "business-laptop-71"
+					}
+					report Pallet_Logistics_import_Report
+					{
+						icon = "business-laptop-71"
+					}
+				}
+				section Opportunity_URS
+				{
+					displayname = "Opportunity URS"
+					icon = "weather-drops"
+					report Opportunity_URS_Report
+					{
+						icon = "weather-drops"
+					}
+				}
+				section SharedAnalytics_Section
+				{
+					type = shared_user_report_section
+					displayname = "Reports"
+					icon = "business-chart-bar-33"
+				}
+			}
+			space Setup
+			{
+				displayname = "Setup"
+				icon = "ui-1-settings-gear-64"
+
+				section App_Preferences
+				{
+					displayname = "App Preferences"
+					icon = "design-app"
+					systemcomponent
+					{
+						type = localization
+						displayname = "Language Selection"
+						icon = "education-language"
+					}
+					systemcomponent
+					{
+						type = connection
+						displayname = "Integraciones (Zoho WorkDrive y otros)"
+						icon = "tech-2-connection"
+					}
+					form  Opportunity_Requirements
+					{
+						icon = "tech-desktop"
+					}
+					form  Opportunity_Products
+					{
+						icon = "design-clone"
+					}
+					form  Settings
+					{
+						icon = "tech-2-p-settings"
+					}
+					report Settings_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+					designcomponent designcomponent7
+					{
+						type = separator
+						separator = "line"
+					}
+				section Partner_companies_Setup
+				{
+					displayname = "Partner companies Setup"
+					icon = "business-building"
+					form  Add_Partner_companies
+					{
+						icon = "ui-1-check-simple"
+					}
+					report Partner_companies_Report
+					{
+						icon = "tech-tablet-reader-31"
+					}
+				}
+					designcomponent designcomponent8
+					{
+						type = separator
+						separator = "line"
+					}
+				section Site_Settings
+				{
+					displayname = "Site Settings"
+					icon = "tech-desktop"
+					form  Client_Sites
+					{
+						icon = "tech-desktop"
+					}
+					report Sitios_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Projects
+				{
+					displayname = "Projects"
+					icon = "education-books-46"
+					form  New_Project_Form
+					{
+						icon = "education-books-46"
+					}
+					report Projects_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Product_Types_Settings
+				{
+					displayname = "Product Types Settings"
+					icon = "design-mobile-design"
+					form  TPL_Solidos_Farma
+					{
+						icon = "tech-desktop"
+					}
+					form  TPL_No_Carbonatadas
+					{
+						icon = "tech-desktop"
+					}
+					report TPL_No_Carbonatadas_Report
+					{
+						icon = "tech-desktop"
+					}
+					form  TPL_Carbonatadas
+					{
+						icon = "tech-desktop"
+					}
+					form  TPL_Semiliq_NoAlim
+					{
+						icon = "tech-desktop"
+					}
+					form  TPL_Spirits_Liquors
+					{
+						icon = "tech-desktop"
+					}
+					form  TPL_Solids_Food
+					{
+						icon = "tech-desktop"
+					}
+					form  Pallet_Logistics_import
+					{
+						icon = "tech-desktop"
+					}
+					form  TPL_Liquidos_Farma_import
+					{
+						icon = "tech-desktop"
+					}
+					form  TPL_Non_Beverage_liquids
+					{
+						icon = "tech-desktop"
+					}
+					form  TPL_Semiliquid_Products1
+					{
+						icon = "tech-desktop"
+					}
+					report Copy_of_Carbonated_beverages_Report
+					{
+						icon = "tech-desktop"
+					}
+					form  TPL_Semiliquids_Food
+					{
+						icon = "design-bullet-list-69"
+					}
+					report Productos_Semiliquidos_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+					designcomponent designcomponent9
+					{
+						type = separator
+						separator = "line"
+					}
+				section Format_Details_Settings
+				{
+					displayname = "Format Details Settings"
+					icon = "ui-1-settings-tool-66"
+					report Copy_of_Unitary_packaging_Formats_Report1
+					{
+						icon = "tech-desktop"
+					}
+					form  Labelling_formats
+					{
+						icon = "tech-desktop"
+					}
+				}
+					designcomponent designcomponent10
+					{
+						type = separator
+						separator = "line"
+					}
+					designcomponent designcomponent11
+					{
+						type = separator
+						separator = "line"
+					}
+					designcomponent designcomponent2
+					{
+						type = separator
+						separator = "blank"
+					}
+			}
+			preference
+			{
+				icon
+				{
+					style = solid
+					show = {space,section,component}
+				}
+			}
+		}
+		customize
+		{
+			font = "lato"
+			color options
+			{
+				name = "custom_color"
+				brand color = "#ef1616"
+				navigation background color = "#12132b"
+				type = "custom"
+			}
+			logo
+			{
+				preference = "company_logo"
+				placement = "left"
+			}
+		}
+	}
+	phone
+	{
+		forms
+		{
+			form Lead_Company
+			{
+				label placement = auto
+			}
+			form Client_Sites
+			{
+				label placement = auto
+			}
+			form Add_Partner_companies
+			{
+				label placement = auto
+			}
+			form New_Project_Form
+			{
+				label placement = auto
+			}
+			form New_Opportunity
+			{
+				label placement = auto
+			}
+			form Opportunity_Formats_Sizes
+			{
+				label placement = auto
+			}
+			form Opportunity_Products
+			{
+				label placement = auto
+			}
+			form Opportunity_Requirements
+			{
+				label placement = auto
+			}
+			form Settings
+			{
+				label placement = auto
+			}
+			form TPL_Carbonatadas
+			{
+				label placement = auto
+			}
+			form TPL_Closure_Caps
+			{
+				label placement = auto
+			}
+			form TPL_Empaque_Unitario
+			{
+				label placement = auto
+			}
+			form TPL_Empaque_terciario
+			{
+				label placement = auto
+			}
+			form TPL_No_Carbonatadas
+			{
+				label placement = auto
+			}
+			form Labelling_formats
+			{
+				label placement = auto
+			}
+			form TPL_Liquidos_Farma_import
+			{
+				label placement = auto
+			}
+			form TPL_Non_Beverage_liquids
+			{
+				label placement = auto
+			}
+			form Pallet_Logistics_import
+			{
+				label placement = auto
+			}
+			form TPL_Secondary_packaging
+			{
+				label placement = auto
+			}
+			form TPL_Semiliq_NoAlim
+			{
+				label placement = auto
+			}
+			form TPL_Semiliquid_Products1
+			{
+				label placement = auto
+			}
+			form TPL_Semiliquids_Food
+			{
+				label placement = auto
+			}
+			form TPL_Solidos_Farma
+			{
+				label placement = auto
+			}
+			form TPL_Solids_Food
+			{
+				label placement = auto
+			}
+			form TPL_Spirits_Liquors
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = twocolumn
+			font = "default"
+			style = "3"
+			color options
+			{
+				name = "custom_color"
+				brand color = "#ef1616"
+				navigation background color = "#12132b"
+				type = "custom"
+			}
+			logo
+			{
+				preference = "company_logo"
+			}
+		}
+	}
+	tablet
+	{
+		forms
+		{
+			form Lead_Company
+			{
+				label placement = left
+			}
+			form Client_Sites
+			{
+				label placement = auto
+			}
+			form Add_Partner_companies
+			{
+				label placement = auto
+			}
+			form New_Project_Form
+			{
+				label placement = auto
+			}
+			form New_Opportunity
+			{
+				label placement = auto
+			}
+			form Opportunity_Formats_Sizes
+			{
+				label placement = auto
+			}
+			form Opportunity_Products
+			{
+				label placement = auto
+			}
+			form Opportunity_Requirements
+			{
+				label placement = auto
+			}
+			form Settings
+			{
+				label placement = auto
+			}
+			form TPL_Carbonatadas
+			{
+				label placement = auto
+			}
+			form TPL_Closure_Caps
+			{
+				label placement = auto
+			}
+			form TPL_Empaque_Unitario
+			{
+				label placement = auto
+			}
+			form TPL_Empaque_terciario
+			{
+				label placement = auto
+			}
+			form TPL_No_Carbonatadas
+			{
+				label placement = auto
+			}
+			form Labelling_formats
+			{
+				label placement = auto
+			}
+			form TPL_Liquidos_Farma_import
+			{
+				label placement = auto
+			}
+			form TPL_Non_Beverage_liquids
+			{
+				label placement = auto
+			}
+			form Pallet_Logistics_import
+			{
+				label placement = auto
+			}
+			form TPL_Secondary_packaging
+			{
+				label placement = auto
+			}
+			form TPL_Semiliq_NoAlim
+			{
+				label placement = auto
+			}
+			form TPL_Semiliquid_Products1
+			{
+				label placement = auto
+			}
+			form TPL_Semiliquids_Food
+			{
+				label placement = auto
+			}
+			form TPL_Solidos_Farma
+			{
+				label placement = auto
+			}
+			form TPL_Solids_Food
+			{
+				label placement = auto
+			}
+			form TPL_Spirits_Liquors
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = slidingpane
+			font = "default"
+			style = "3"
+			color options
+			{
+				name = "custom_color"
+				brand color = "#ef1616"
+				navigation background color = "#12132b"
+				type = "custom"
+			}
+			logo
+			{
+				preference = "company_logo"
+			}
+		}
+	}
+	translation
+{
+{"Language_Settings":{"LANGAGUE_WITH_LOGIN":"browser"}}
+}
+}
