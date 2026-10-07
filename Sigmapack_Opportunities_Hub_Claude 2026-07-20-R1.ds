@@ -1422,31 +1422,14 @@
 	 			column = 0   
 				width = medium
 			)
-			must have New_Opportunity
+			New_Opportunity
 			(
 				type = picklist	
-				displayname = "Oportunidad"
 				values  = New_Opportunity.ID
-    			displayformat = [Opportunity_ID2 + " - " + Opportunity_reference]
+    			displayformat = [Opportunity_ID2]
 				sortorder = ascending
 	 			row = 1
 	 			column = 1   
-				width = medium
-			)
-			Partida_Oportunidad
-			(
-				type = number
-				displayname = "Partida # en la oportunidad"
-	 			row = 1
-	 			column = 2   
-				width = medium
-			)
-			Productos_registrados
-			(
-    			type = plaintext
-				value = ""
-	 			row = 1
-	 			column = 3   
 				width = medium
 			)
 			Section
@@ -1617,15 +1600,6 @@
 				browse = local_drive
 	 			row = 13
 	 			column = 1   
-				width = medium
-			)
-			Agregar_otro_producto
-			(
-    			type = checkbox
-				displayname = "Agregar otro producto a esta oportunidad al guardar"
-				initial value = false
-	 			row = 13
-	 			column = 2   
 				width = medium
 			)
 	
@@ -4859,27 +4833,6 @@
 	    		)
 			)
 		}
-		list Opportunity_Products_Report
-		{
-			displayName = "Productos por Oportunidad"
-			show all rows from Opportunity_Products    
-			(
-				New_Opportunity as "Oportunidad"
-				Partida_Oportunidad as "Partida"
-				Product_Number as "Product Number"
-				Product_Type as "Product Type"
-				Product_acidity as "Product acidity"
-				Material_safety_data_sheet as "Material safety data sheet"
-			)
-			group by
-			(
-				New_Opportunity ascending
-			)
-			sort by
-			(
-				Partida_Oportunidad ascending
-			)
-		}
 		list URS_Report
 		{
 			displayName = "URS Report"
@@ -5346,93 +5299,6 @@
 										oppRecord.Opportunity_ID2=input.ID;
 										DisplayName = oppRecord.Opportunity_ID2.toString();
 										oppRecord.Opportunity_ID_Text="<b><span style='font-size:14px; color:#C0392B;'>" + DisplayName + "</span></b>";
-						)
-					}
-				}
-
-			}
-			Productos_Al_Cargar as "Productos - Al cargar"
-			{
-				type =  form
-				form = Opportunity_Products
-
-				record event = on add
-
-				on load
-				{
-					actions 
-					{
-						custom deluge script
-						(
-											if(input.New_Opportunity != null)
-											{
-												total = Opportunity_Products[New_Opportunity == input.New_Opportunity].count();
-												opp = New_Opportunity[ID == input.New_Opportunity];
-												input.Productos_registrados = "<div><span style='color:#5D6D7E;'><b>Oportunidad " + opp.Opportunity_ID2 + "</b>: " + total + " producto(s) registrado(s). Este producto será la partida #" + (total + 1) + ".</span></div>";
-											}
-											else
-											{
-												input.Productos_registrados = "<div><span style='color:#5D6D7E;'>Selecciona la oportunidad. Marca <b>Agregar otro producto</b> al final para capturar varias partidas seguidas.</span></div>";
-											}
-						)
-					}
-				}
-
-			}
-			Productos_Bloquear_Partida as "Productos - Bloquear partida"
-			{
-				type =  form
-				form = Opportunity_Products
-
-				record event = on add or edit
-
-				field rules
-				{
-					actions 
-					{
-						disable Partida_Oportunidad;
-					}
-				}
-
-			}
-			Productos_Numerar_Partida as "Productos - Numerar partida"
-			{
-				type =  form
-				form = Opportunity_Products
-
-				record event = on add
-
-				on validate
-				{
-					actions 
-					{
-						custom deluge script
-						(
-											input.Partida_Oportunidad = Opportunity_Products[New_Opportunity == input.New_Opportunity].count() + 1;
-						)
-					}
-				}
-
-			}
-			Productos_Agregar_Otro as "Productos - Agregar otro"
-			{
-				type =  form
-				form = Opportunity_Products
-
-				record event = on add or edit
-
-				on success
-				{
-					actions 
-					{
-						custom deluge script
-						(
-											if(input.Agregar_otro_producto == true && input.New_Opportunity != null)
-											{
-												rec = Opportunity_Products[ID == input.ID];
-												rec.Agregar_otro_producto = false;
-												openUrl("#Form:Opportunity_Products?New_Opportunity=" + input.New_Opportunity + "&Agregar_otro_producto=true","same window");
-											}
 						)
 					}
 				}
@@ -5937,7 +5803,6 @@
 						ReportPermissions
 						{
 							Opportunity_URS_Report={"View","Edit","Delete"}
-							Opportunity_Products_Report={"View","Edit","Delete"}
 						}
 					}
 					TPL_Semiliquid_Products1
@@ -6098,7 +5963,6 @@
 						ReportPermissions
 						{
 							Opportunity_URS_Report={"View","Edit","Delete"}
-							Opportunity_Products_Report={"View","Edit","Delete"}
 						}
 					}
 					TPL_Semiliquid_Products1
@@ -6168,7 +6032,6 @@
 						ReportPermissions
 						{
 							Opportunity_URS_Report={"View"}
-							Opportunity_Products_Report={"View"}
 						}
 					}
 					Lead_Company
@@ -6224,7 +6087,6 @@
 						ReportPermissions
 						{
 							Opportunity_URS_Report={"View","Edit"}
-							Opportunity_Products_Report={"View","Edit"}
 						}
 					}
 					Lead_Company
@@ -6728,86 +6590,6 @@
 								Edit 
 								Duplicate 
 								Print 
-								Delete 
-							)
-						)
-				)
-			}
-			report Opportunity_Products_Report
-			{
-				quickview
-				(
-					layout
-					(
-						datablock1
-						(
-							fields
-							(
-								New_Opportunity as "Oportunidad"
-								Partida_Oportunidad as "Partida"
-								Product_Number as "Product Number"
-								Product_Type as "Product Type"
-								Product_acidity as "Product acidity"
-								Material_safety_data_sheet as "Material safety data sheet"
-							)
-						)
-					)
-						menu
-						(
-							header
-							(
-								Edit 
-								Duplicate 
-								Delete 
-								Add 
-								Export 
-							)
-						record
-						(
-							Edit   	   
-							Duplicate   	   
-							Delete   	   
-    					)
-						)
-    				action
-    				(
-						on click
-						(
-							View Record   	   
-    					)
-						on right click
-						(
-							Edit   	   
-							Delete   	   
-							Duplicate   	   
-							View Record   	   
-    					)
-     				)
-				)
-
-				detailview
-				(
-					layout
-					(
-						datablock1
-						(
-							fields
-							(
-								New_Opportunity as "Oportunidad"
-								Partida_Oportunidad as "Partida"
-								Product_Number as "Product Number"
-								Product_Type as "Product Type"
-								Product_acidity as "Product acidity"
-								Material_safety_data_sheet as "Material safety data sheet"
-							)
-						)
-					)
-						menu
-						(
-							header
-							(
-								Edit 
-								Duplicate 
 								Delete 
 							)
 						)
@@ -8788,10 +8570,6 @@
 					report Pipeline_tracking_39684ba17bf5800aace7df_Report
 					{
 						icon = "ui-2-filter"
-					}
-					report Opportunity_Products_Report
-					{
-						icon = "design-clone"
 					}
 				}
 					designcomponent designcomponent6
