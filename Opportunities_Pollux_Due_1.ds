@@ -8142,9 +8142,15 @@
                  		imgHtml = "";
                  		if(rec.Image != null && rec.Image.toString() != "")
                  		{
+                 			// Deluge entrega <img src=".../sharedBy/appLinkName/viewLinkName/fieldName/image/<archivo>">
+                 			// Se toma solo el nombre del archivo y se arma la URL de descarga de la app
                  			rawImg = rec.Image.toString();
                  			fileName = rawImg;
-                 			if(fileName.contains("filepath="))
+                 			if(fileName.contains("/image/"))
+                 			{
+                 				fileName = fileName.getSuffix("/image/");
+                 			}
+                 			else if(fileName.contains("filepath="))
                  			{
                  				fileName = fileName.getSuffix("filepath=");
                  			}
@@ -8156,17 +8162,9 @@
                  			{
                  				fileName = fileName.subString(fileName.lastIndexOf("/") + 1,fileName.length());
                  			}
+                 			fileName = fileName.trim();
                  			imgUrl = "https://creatorapp.zoho.com/file" + zoho.appuri + "All_Opportunity_Product_Specs/" + rec.ID + "/Image/image-download?filepath=/" + fileName;
-                 			imgStyle = "width:56px;height:56px;object-fit:cover;border-radius:4px;border:1px solid #D5DBE1;";
-                 			if(rawImg.contains("<img"))
-                 			{
-                 				// Deluge ya entrega la etiqueta <img>: se reutiliza y se ajusta el tamano
-                 				imgHtml = rawImg.replaceFirst("<img","<img style='" + imgStyle + "'");
-                 			}
-                 			else
-                 			{
-                 				imgHtml = "<img src='" + imgUrl + "' style='" + imgStyle + "'>";
-                 			}
+                 			imgHtml = "<a href='" + imgUrl + "' target='_blank'><img src='" + imgUrl + "' style='width:56px;height:56px;object-fit:cover;border-radius:4px;border:1px solid #D5DBE1;'></a>";
                  		}
                  		lineText = "";
                  		if(rec.Product_Line != null)
@@ -8201,9 +8199,15 @@
                  		imgHtml = "";
                  		if(rec.Image != null && rec.Image.toString() != "")
                  		{
+                 			// Deluge entrega <img src=".../sharedBy/appLinkName/viewLinkName/fieldName/image/<archivo>">
+                 			// Se toma solo el nombre del archivo y se arma la URL de descarga de la app
                  			rawImg = rec.Image.toString();
                  			fileName = rawImg;
-                 			if(fileName.contains("filepath="))
+                 			if(fileName.contains("/image/"))
+                 			{
+                 				fileName = fileName.getSuffix("/image/");
+                 			}
+                 			else if(fileName.contains("filepath="))
                  			{
                  				fileName = fileName.getSuffix("filepath=");
                  			}
@@ -8215,17 +8219,9 @@
                  			{
                  				fileName = fileName.subString(fileName.lastIndexOf("/") + 1,fileName.length());
                  			}
+                 			fileName = fileName.trim();
                  			imgUrl = "https://creatorapp.zoho.com/file" + zoho.appuri + "All_Opportunity_Formats/" + rec.ID + "/Image/image-download?filepath=/" + fileName;
-                 			imgStyle = "width:56px;height:56px;object-fit:cover;border-radius:4px;border:1px solid #D5DBE1;";
-                 			if(rawImg.contains("<img"))
-                 			{
-                 				// Deluge ya entrega la etiqueta <img>: se reutiliza y se ajusta el tamano
-                 				imgHtml = rawImg.replaceFirst("<img","<img style='" + imgStyle + "'");
-                 			}
-                 			else
-                 			{
-                 				imgHtml = "<img src='" + imgUrl + "' style='" + imgStyle + "'>";
-                 			}
+                 			imgHtml = "<a href='" + imgUrl + "' target='_blank'><img src='" + imgUrl + "' style='width:56px;height:56px;object-fit:cover;border-radius:4px;border:1px solid #D5DBE1;'></a>";
                  		}
                  		lineText = "";
                  		if(rec.Format_Line != null)
